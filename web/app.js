@@ -1,3 +1,5 @@
+import MainView from "./registration/views/MainView.js";
+
 const User = Backbone.Model.extend({
 });
 
@@ -35,4 +37,6 @@ const UserListView = Backbone.View.extend({
 });
 
 // Initialize the UserListView to fetch and display users
-const userListView = new UserListView();
+// const userListView = new UserListView();
+const r = new MainView();
+r.render().$el.appendTo($('main'));

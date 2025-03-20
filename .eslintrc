@@ -1,0 +1,65 @@
+{
+  "plugins": [
+    "jest"
+  ],
+  "env": {
+    "browser": true,
+    "jquery": true,
+    "amd": true,
+    "es6": true,
+    "jest/globals": true
+  },
+  "parserOptions": {
+    "ecmaVersion": 7,
+    "sourceType": "module"
+  },
+  "globals": {
+    "_": true,
+    "app": true
+  },
+  "extends": "airbnb-base/legacy",
+  "rules": {
+    "no-restricted-syntax": [
+      "error", "ForInStatement"
+    ],
+    "linebreak-style":"off",
+    "indent": [ 2, 4],
+    "max-len": [
+      "error",
+      { "code": 180, "ignoreTemplateLiterals": true }
+    ],
+    "func-names": 0,
+    "vars-on-top": 0,
+    "one-var": 0,
+    "radix": "off",
+    "class-methods-use-this": 0,
+    "no-trailing-spaces": "off",
+    "no-underscore-dangle": 0,
+    "no-unused-expressions": [
+      "error", {
+        "allowShortCircuit": true,
+        "allowTernary": true
+      }
+    ],
+    "no-use-before-define": ["error", { "functions": true, "classes": false }],
+    "no-plusplus": [
+      "error", {
+        "allowForLoopAfterthoughts": true
+      }
+    ],
+    "no-unused-vars": [
+      "error", {
+        "args": "none"
+      }
+    ],
+    "space-before-function-paren": ["error", {
+      "anonymous": "never",
+      "named": "never",
+      "asyncArrow": "always"
+    }],
+    "no-param-reassign": ["error", { "props": true, "ignorePropertyModificationsFor": ["options", "model", "response"]}],
+    "no-new":"warn",
+    "lines-between-class-members": 0,
+    "max-classes-per-file": ["warn", 8]
+  }
+}
