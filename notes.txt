@@ -1,0 +1,17 @@
+
+
+REGSISTRERING (slagere)
+    filter
+    legg til ny
+    rediger
+    slett
+    bekreft oppmøte
+
+
+SLAGNING [innledende | semifinale | finale]
+    påmeldte/bekreftede
+    endre rekkefølge
+    runde
+        starte
+        redigere
+        slette
