@@ -41,6 +41,16 @@ app.get('/players', (req, res) => {
     });
 });
 
+app.get('/clubs', (req, res) => {
+    db.all('SELECT * from club', [], (err, rows) => {
+        if (!err) {
+            res.status(200).json(rows);
+        } else {
+            res.status(500).json({ error: err.message });
+        }
+    });
+});
+
 const PORT = 6307;
 app.listen(PORT, () => {
     console.log(`Kiegle kjører på http://localhost:${PORT} - lå det gå sport i det!`);

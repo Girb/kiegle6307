@@ -77,5 +77,6 @@ INNER JOIN club cl ON pl.club_id = cl.id;
 
 
 INSERT INTO club (id, name) VALUES (1, 'Kniksen');
+INSERT INTO club (id, name) VALUES (2, 'Rambla');
 INSERT INTO player (id, firstname, lastname, club_id) VALUES (1, 'Eivind', 'Sommersten', 1);
 INSERT INTO player (id, firstname, lastname, club_id) VALUES (2, 'Håkon', 'Marås', 1);
