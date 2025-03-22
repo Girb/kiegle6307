@@ -15,7 +15,7 @@ export default class PlayerList extends View {
     initialize(options) {
         super.initialize(options);
         this.collection = new PlayerCollection();
-        this.collection.url = '/players';
+        this.collection.url = '/api/players';
     }
     get template() {
         return /* html */ `

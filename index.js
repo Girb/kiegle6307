@@ -2,6 +2,7 @@ import express from 'express';
 import sqlite3 from 'sqlite3';
 import fs from 'fs';
 import path from 'path';
+import api from './api/index.js';
 
 const __dirname = path.resolve();
 
@@ -31,15 +32,7 @@ db.exec(sql, err => {
       }
 });
 
-app.get('/players', (req, res) => {
-    db.all('SELECT * from player', [], (err, rows) => {
-        if (!err) {
-            res.status(200).json(rows);
-        } else {
-            res.status(500).json({ error: err.message });
-        }
-    });
-});
+app.use('/api', api(db));
 
 app.get('/clubs', (req, res) => {
     db.all('SELECT * from club', [], (err, rows) => {
