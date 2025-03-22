@@ -1,7 +1,21 @@
+PRAGMA case_sensitive_like = false;
+
 CREATE TABLE club (
 	id serial PRIMARY KEY,
 	name VARCHAR
 );
+
+
+CREATE TABLE player_status (
+	id INTEGER PRIMARY KEY,
+	title VARCHAR
+);
+
+INSERT INTO player_status (id, title) VALUES (0, 'Registrert');
+INSERT INTO player_status (id, title) VALUES (1, 'Bekreftet');
+INSERT INTO player_status (id, title) VALUES (2, 'I gang');
+INSERT INTO player_status (id, title) VALUES (3, 'Ferdig');
+INSERT INTO player_status (id, title) VALUES (4, 'Kansellert');
 
 CREATE TABLE player (
 	id serial PRIMARY KEY,
@@ -9,7 +23,8 @@ CREATE TABLE player (
 	lastname VARCHAR,
 	nickname VARCHAR,
 	email VARCHAR,
-	club_id INTEGER NOT NULL REFERENCES club(id)
+	club_id INTEGER NOT NULL REFERENCES club(id),
+	status_id INTEGER NOT NULL DEFAULT 0 REFERENCES player_status(id)
 );
 
 CREATE TABLE participant_status (
@@ -80,3 +95,6 @@ INSERT INTO club (id, name) VALUES (1, 'Kniksen');
 INSERT INTO club (id, name) VALUES (2, 'Rambla');
 INSERT INTO player (id, firstname, lastname, club_id) VALUES (1, 'Eivind', 'Sommersten', 1);
 INSERT INTO player (id, firstname, lastname, club_id) VALUES (2, 'Håkon', 'Marås', 1);
+INSERT INTO player (id, firstname, lastname, club_id) VALUES (3, 'Kjetil', 'Lilletvedt', 1);
+INSERT INTO player (id, firstname, lastname, club_id) VALUES (4, 'Cato', 'Ervik', 1);
+INSERT INTO player (id, firstname, lastname, club_id) VALUES (5, 'Fredrik', 'Larsen', 2);

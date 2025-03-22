@@ -47,8 +47,8 @@ export default class ModalView extends View {
         });
         this._modal.show();
         return this;
-
     }
+    onShown() {}
     close() {
         this._modal.hide();
     }

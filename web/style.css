@@ -2,18 +2,4 @@ body {
     font-family: Arial, sans-serif;
     margin: 20px;
 }
-
-h1 {
-    color: #333;
-}
-
-.user {
-    padding: 5px;
-    margin: 5px;
-    border: 1px solid #ccc;
-    border-radius: 3px;
-}
-
-#user-list {
-    margin-top: 20px;
-}
+.cursor-pointer { cursor: pointer; }
