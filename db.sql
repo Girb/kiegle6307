@@ -1,7 +1,7 @@
 PRAGMA case_sensitive_like = false;
 
 CREATE TABLE club (
-	id serial PRIMARY KEY,
+	id INTEGER PRIMARY KEY,
 	name VARCHAR
 );
 
@@ -18,13 +18,14 @@ INSERT INTO player_status (id, title) VALUES (3, 'Ferdig');
 INSERT INTO player_status (id, title) VALUES (4, 'Kansellert');
 
 CREATE TABLE player (
-	id serial PRIMARY KEY,
+	id INTEGER PRIMARY KEY,
 	firstname VARCHAR,
 	lastname VARCHAR,
 	nickname VARCHAR,
 	email VARCHAR,
 	club_id INTEGER NOT NULL REFERENCES club(id),
-	status_id INTEGER NOT NULL DEFAULT 0 REFERENCES player_status(id)
+	status_id INTEGER NOT NULL DEFAULT 0 REFERENCES player_status(id),
+	sort_order INTEGER
 );
 
 CREATE TABLE participant_status (
@@ -38,7 +39,7 @@ INSERT INTO participant_status (id, title) VALUES (2, 'Ferdig');
 INSERT INTO participant_status (id, title) VALUES (3, 'Kansellert');
 
 CREATE table participant (
-	id serial PRIMARY KEY,
+	id INTEGER PRIMARY KEY,
 	player_id INTEGER NOT NULL REFERENCES player(id),
 	sort_order INTEGER,
 	status_id INTEGER NOT NULL DEFAULT 0 REFERENCES participant_status(id)
@@ -63,14 +64,14 @@ INSERT INTO round_status (id, title) VALUES (1, 'Submitted');
 INSERT INTO round_status (id, title) VALUES (2, 'Deleted');
 
 CREATE TABLE round (
-	id serial PRIMARY KEY,
-	participant_id INTEGER NOT NULL REFERENCES participant(id),
+	id INTEGER PRIMARY KEY,
+	player_id INTEGER NOT NULL REFERENCES player(id),
 	stage_type_id INTEGER NOT NULL REFERENCES tbl_stage_type(id),
 	status_id INTEGER NOT NULL DEFAULT 0 REFERENCES round_status(id)
 );
 
 CREATE TABLE throw (
-	id serial PRIMARY KEY,
+	id INTEGER PRIMARY KEY,
 	round_id INTEGER NOT NULL REFERENCES round(id) ON DELETE CASCADE,
 	score INTEGER
 );

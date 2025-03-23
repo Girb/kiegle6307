@@ -1,16 +1,27 @@
-import MainView from "./registration/views/MainView.js";
+import { default as MainViewReg } from "./registration/views/MainView.js";
+import { default as MainViewComp } from "./competition/views/MainView.js";
 import TopNav from "./registration/views/TopNav.js";
 
 class App extends Backbone.Router {
   get routes() {
     return {
-      'registrering': 'reg'
+      '': 'reg',
+      'registrering': 'reg',
+      'konkurranse': 'comp'
     };
-  }  
-  reg() {
+  } 
+  renderTopNav() {
     const t = new TopNav({ el: $('nav') });
     t.render();
-    const v = new MainView();
+  } 
+  reg() {
+    this.renderTopNav();
+    const v = new MainViewReg();
+    v.render().$el.appendTo($('main').empty());
+  }
+  comp() {
+    this.renderTopNav();
+    const v = new MainViewComp();
     v.render().$el.appendTo($('main').empty());
   }
 };

@@ -1,5 +1,7 @@
 import { Router } from "express";
 
+const logError = err => err && console.log(err.message);
+
 export default db => {
     const api = Router();
     api.get('/', (req, res) => {
@@ -17,11 +19,26 @@ export default db => {
         });
     });
 
+    api.get('/competition', (req, res) => {
+        let sql = 'SELECT p.*, c.name as club_name from player p INNER JOIN club c ON c.id = p.club_id ORDER BY sort_order ASC';
+        db.all(sql, [], (err, rows) => {
+            if (!err) {
+                res.status(200).json(rows);
+            } else {
+                res.status(500).json({ error: err.message });
+            }
+        });
+    });
+
     api.post('/', (req, res) => {
         db.run('INSERT INTO player (firstname, lastname, club_id) VALUES (?, ?, ?)', [req.body.firstname, req.body.lastname, req.body.club_id], function(err) {
             if (err) {
                 console.log(err.message);
             } else {
+                db.run('INSERT INTO round (player_id, stage_type_id, status_id) VALUES (?, ?, ?)', [this.lastID, 0, 0]);
+                db.run('INSERT INTO round (player_id, stage_type_id, status_id) VALUES (?, ?, ?)', [this.lastID, 1, 0]);
+                db.run('INSERT INTO round (player_id, stage_type_id, status_id) VALUES (?, ?, ?)', [this.lastID, 2, 0]);
+                db.run('INSERT INTO round (player_id, stage_type_id, status_id) VALUES (?, ?, ?)', [this.lastID, 2, 0]);
                 res.json({
                     id: this.lastID,
                     firstname: req.body.firstname,

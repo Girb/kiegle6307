@@ -13,7 +13,8 @@ app.use(express.json());
 // Serve static files from the "web" folder
 app.use(express.static(path.join(__dirname, 'web')));
 
-const db = new sqlite3.Database(':memory:');
+// const db = new sqlite3.Database(':memory:');
+const db = new sqlite3.Database('test');
 // db.serialize(() => {
 //     db.run('CREATE TABLE user (id INT, name TEXT)');
 
