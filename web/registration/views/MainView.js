@@ -24,15 +24,17 @@ export default class MainView extends View {
     }
     get template() {
         return /* html */ `
-            <div class="tools d-flex align-items-center mb-3">
-                <div class="flex-grow-1 me-3">
-                    <input autofocus type="search" name="q" class="q w-100" placeholder="Finn slager...">
+            <div class="container">
+                <div class="tools d-flex align-items-center mb-3">
+                    <div class="flex-grow-1 me-3">
+                        <input autofocus type="search" name="q" class="q w-100" placeholder="Finn slager...">
+                    </div>
+                    <div>
+                        <button class="btn btn-primary create">Legg til ny</button>
+                    </div>
                 </div>
-                <div>
-                    <button class="btn btn-primary create">Legg til ny</button>
-                </div>
+                <div class="list"></div>
             </div>
-            <div class="list"></div>
         `;
     }
     renderList() {

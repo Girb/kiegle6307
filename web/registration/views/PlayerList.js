@@ -23,9 +23,9 @@ class PlayerRow extends View {
             <td>${this.model.get('firstname')}</td>
             <td>${this.model.get('lastname')}</td>
             <td>${this.model.get('club_name')}</td>
-            <td>
-                <button class="btn btn-outline-primary btn-sm edit">Rediger</button>
+            <td class="text-end">
                 <button class="btn btn${this.model.get('status_id') === 0 ? '-outline' : ''}-success btn-sm confirm ${this.model.get('status_id') === 1 ? 'active' : ''}"></button>
+                <button class="btn btn-outline-primary btn-sm edit">Rediger</button>
                 <div class="lbl d-none"></div>
             </td>
         `;

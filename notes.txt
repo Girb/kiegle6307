@@ -8,7 +8,7 @@ REGSISTRERING (slagere)
     bekreft oppmøte
 
 
-SLAGNING [innledende | semifinale | finale]
+KONKURRANSE [innledende | semifinale | finale]
     påmeldte/bekreftede
     endre rekkefølge
     runde
