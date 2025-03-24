@@ -9,6 +9,18 @@ export default class Player extends Backbone.Model {
         if (id === 4) return 'Kansellert';
         return `Ukjent status (${id})`;
     }
+    stageStr(typeid) {
+        if (this.get('stage' + typeid) !== undefined) {
+            return this.get('stage' + typeid) || '-';
+        }
+        return '+';
+    }
+    stageCls(typeid) {
+        if (this.get('stage' + typeid) !== undefined) {
+            return 'btn-outline-success';
+        }
+        return 'btn-primary';
+    }
 }
 
 export class PlayerCollection extends Backbone.Collection {

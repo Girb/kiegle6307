@@ -1,6 +1,6 @@
-import $ from 'jquery';
+import View from "../../views/View.js";
 
-export default class SingleScoreView extends Backbone.View {
+export default class SingleScoreView extends View {
     get tagName() { return 'span'; }
     get attributes() {
         return {
@@ -22,7 +22,7 @@ export default class SingleScoreView extends Backbone.View {
             .prop('type', 'number')
             .css('position', 'absolute')
             .css('width', '2em')
-            .css('left', '-200%')
+            .css('left', '-20000px')
             .appendTo(this.$el)
             .focus();
         this.trigger('focused', this);
@@ -45,7 +45,7 @@ export default class SingleScoreView extends Backbone.View {
             }
             
             this.throw.score = this.get();
-            // this.saveThrow();
+            this.saveThrow();
             this.trigger('change:value', this);
             this.round.trigger('change:score');
             return false;
@@ -57,9 +57,13 @@ export default class SingleScoreView extends Backbone.View {
         return isNaN(this.$el.text()) ? undefined : parseInt(this.$el.text());
     }
     saveThrow() {
-        Server.post('/throws', this.throw).then(() => {
-            console.log('score updated');
-        });        
+        fetch('/api/throws', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(this.throw)
+        });
     }
     render() {
         this.$el.toggleClass('sep', !!this.separator);

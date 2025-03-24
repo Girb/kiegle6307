@@ -1,6 +1,8 @@
 import View from "../../views/View.js";
+import SingleScoreView from "./SingleScoreView.js";
 
 export default class ScoreboardView extends View {
+    get className() { return 'scoreboard'; }
     initialize(options) {
         super.initialize(options);
         this.listenTo(app, 'window:focus', this.windowFocused);
@@ -25,7 +27,29 @@ export default class ScoreboardView extends View {
     }
     render() {
         super.render();
-        
+        const throws = this.model.get('throws');
+
+        this.items = [];
+        for (let i = 0; i < throws.length; i += 1) {
+            const typeid = this.model.get('stage_type_id');
+            const sep = (i === 4 && (typeid === 0 || typeid === 1)); // innledende/semi er 5 + 5
+            const ss = new SingleScoreView({ throw: throws[i], round: this.model, separator: sep });
+            this.listenTo(ss, 'focus:next', this.focusNext);
+            this.listenTo(ss, 'focus:prev', this.focusPrev);
+            this.items.push(ss);
+            this.listenTo(ss, 'change:value', (sx) => {
+                this.focusNext(sx);
+                this.model.trigger('change');
+                // this.sum();
+            });
+            this.$el.append(ss.render().$el);
+        }
+        setTimeout(() => {
+            this.focus(this.items[0].$el);
+            this.$el.on('destroyed', () => {
+                this.stopListening();
+            })
+        });
         return this;
     }
 }

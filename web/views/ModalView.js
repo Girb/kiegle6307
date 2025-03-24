@@ -16,7 +16,7 @@ export default class ModalView extends View {
                         <h5 class="modal-title">${this.title}</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="modal-body">${this.content}</div>
+                    <div class="modal-body">${this.content || ''}</div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-primary ok">Lagre</button>
                         <button type="button" class="btn btn-secondary cancel">Avbryt</button>
@@ -26,7 +26,9 @@ export default class ModalView extends View {
         `;
     }
     get content() {
-        return `override with content`;
+    }
+    renderBody(el) {
+
     }
     get events() {
         return {
@@ -51,5 +53,10 @@ export default class ModalView extends View {
     onShown() {}
     close() {
         this._modal.hide();
+    }
+    render() {
+        super.render();
+        this.renderBody(this.$('.modal-body'));
+        return this;
     }
 }

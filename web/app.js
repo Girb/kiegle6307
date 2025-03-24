@@ -3,6 +3,12 @@ import { default as MainViewComp } from "./competition/views/MainView.js";
 import TopNav from "./registration/views/TopNav.js";
 
 class App extends Backbone.Router {
+  start() {
+    Backbone.history.start();
+    $(window).on('focus', () => {
+      this.trigger('window:focus');
+    });
+  }
   get routes() {
     return {
       '': 'reg',
@@ -26,6 +32,5 @@ class App extends Backbone.Router {
   }
 };
 
-const app = new App();
-// Backbone.history.start({ pushState: true });
-Backbone.history.start();
+window.app = new App();
+window.app.start();

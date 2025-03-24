@@ -11,7 +11,9 @@ const buildPlayerList = rows => {
         m.get(row.player_id).firstname = row.firstname;
         m.get(row.player_id).lastname = row.lastname;
         m.get(row.player_id).club_name = row.club_name;
-        m.get(row.player_id)['stage' + row.stage_type_id] = row.score;
+        if (row.stage_type_id !== null) {
+            m.get(row.player_id)['stage' + row.stage_type_id] = row.score;
+        }
     });
     return [...m.values()];
 };
