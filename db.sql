@@ -1,5 +1,3 @@
-PRAGMA case_sensitive_like = false;
-
 CREATE TABLE club (
 	id INTEGER PRIMARY KEY,
 	name VARCHAR

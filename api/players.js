@@ -20,17 +20,9 @@ export default db => {
     const api = Router();
     api.get('/', (req, res) => {
         let sql = 'SELECT p.*, c.name as club_name from player p INNER JOIN club c ON c.id = p.club_id';
-        const q = req.query.q;
-        if (q) {
-            sql += ` where firstname LIKE '%${q}%' OR lastname LIKE '%${q}%' OR nickname LIKE '%${q}%'`
-        }
-        db.all(sql, [], (err, rows) => {
-            if (!err) {
-                res.status(200).json(rows);
-            } else {
-                res.status(500).json({ error: err.message });
-            }
-        });
+        const stmt = db.prepare(sql);
+        const rows = stmt.all();
+        res.status(200).json(rows);
     });
 
     api.get('/competition', (req, res) => {
@@ -52,47 +44,21 @@ export default db => {
             where p.status_id IN (1,2)
             order by p.sort_order;
         `;
-        db.all(sql, [], (err, rows) => {
-            if (!err) {
-                res.status(200).json(buildPlayerList(rows));
-            } else {
-                res.status(500).json({ error: err.message });
-            }
-        });
+        const stmt = db.prepare(sql);
+        const rows = buildPlayerList(stmt.all());
+        res.status(200).json(rows);
     });
 
     api.post('/', (req, res) => {
-        db.run('INSERT INTO player (firstname, lastname, club_id) VALUES (?, ?, ?)', [req.body.firstname, req.body.lastname, req.body.club_id], function(err) {
-            if (err) {
-                console.log(err.message);
-            } else {
-                db.run('INSERT INTO round (player_id, stage_type_id, status_id) VALUES (?, ?, ?)', [this.lastID, 0, 0]);
-                db.run('INSERT INTO round (player_id, stage_type_id, status_id) VALUES (?, ?, ?)', [this.lastID, 1, 0]);
-                db.run('INSERT INTO round (player_id, stage_type_id, status_id) VALUES (?, ?, ?)', [this.lastID, 2, 0]);
-                db.run('INSERT INTO round (player_id, stage_type_id, status_id) VALUES (?, ?, ?)', [this.lastID, 3, 0]);
-                res.json({
-                    id: this.lastID,
-                    firstname: req.body.firstname,
-                    lastname: req.body.lastname,
-                    club_id: req.body.club_id
-                });
-            }
-        });
+        const stmt = db.prepare('INSERT INTO player (firstname, lastname, club_id) VALUES (?, ?, ?)');
+        const result = stmt.run([req.body.firstname, req.body.lastname, req.body.club_id]);
+        res.status(200).json(result);
     });
 
     api.put('/:id?', (req, res) => {
-        db.run('UPDATE player SET firstname = ?, lastname = ?, club_id = ?, status_id = ? WHERE id = ?', [req.body.firstname, req.body.lastname, req.body.club_id, req.body.status_id, req.body.id], function(err) {
-            if (err) {
-                console.log(err.message);
-            } else {
-                res.json({
-                    id: req.body.id,
-                    firstname: req.body.firstname,
-                    lastname: req.body.lastname,
-                    club_id: req.body.club_id
-                });
-            }
-        });
+        const stmt = db.prepare('UPDATE player SET firstname = ?, lastname = ?, club_id = ?, status_id = ? WHERE id = ?');
+        const result = stmt.run([req.body.firstname, req.body.lastname, req.body.club_id, req.body.status_id, req.body.id]);
+        res.status(200).json(result);
     });
 
 

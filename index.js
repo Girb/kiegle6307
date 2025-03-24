@@ -1,5 +1,6 @@
 import express from 'express';
 import sqlite3 from 'sqlite3';
+import Database from 'better-sqlite3';
 import fs from 'fs';
 import path from 'path';
 import api from './api/index.js';
@@ -13,7 +14,10 @@ app.use(express.json());
 // Serve static files from the "web" folder
 app.use(express.static(path.join(__dirname, 'web')));
 
-const db = new sqlite3.Database(':memory:');
+// const db = new Database(':memory:', { verbose: console.log });
+const db = new Database(':memory:');
+db.pragma('journal_mode = WAL');
+// const db = new sqlite3.Database(':memory:');
 // const db = new sqlite3.Database('test.db');
 // db.serialize(() => {
 //     db.run('CREATE TABLE user (id INT, name TEXT)');
@@ -36,13 +40,9 @@ db.exec(sql, err => {
 app.use('/api', api(db));
 
 app.get('/clubs', (req, res) => {
-    db.all('SELECT * from club', [], (err, rows) => {
-        if (!err) {
-            res.status(200).json(rows);
-        } else {
-            res.status(500).json({ error: err.message });
-        }
-    });
+    const stmt = db.prepare('SELECT * from club');
+    const rows = stmt.all();
+    res.status(200).json(rows);
 });
 
 const PORT = 6307;
