@@ -11,14 +11,19 @@ class PlayerRow extends View {
         return /* html */ `
             <td>${this.model.get('firstname')} ${this.model.get('lastname')}</td>
             <td>${this.model.get('club_name')}</td>
-            <td class="text-center"><button class="btn btn-primary btn-sm score">+</button></td>
-            <td class="text-center"><button class="btn btn-primary btn-sm score">+</button></td>
-            <td class="text-center"><button class="btn btn-primary btn-sm score">+</button></td>
-            <td class="text-center"><button class="btn btn-primary btn-sm score">+</button></td>
+            <td class="text-center"><button class="btn btn-primary btn-sm score stage0">+</button></td>
+            <td class="text-center"><button class="btn btn-primary btn-sm score stage1">+</button></td>
+            <td class="text-center"><button class="btn btn-primary btn-sm score stage2">+</button></td>
+            <td class="text-center"><button class="btn btn-primary btn-sm score stage3">+</button></td>
         `;
     }
     render() {
         super.render();
+        for (let i = 0; i <= 3; i++) {
+            if (this.model.get('stage' + i) !== undefined) {
+                this.$('.stage' + i).text(this.model.get('stage' + i)).removeClass('btn-primary').addClass('btn-outline-success');
+            }
+        }
         return this;
     }
 }

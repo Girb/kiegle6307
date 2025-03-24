@@ -53,6 +53,7 @@ CREATE table tbl_stage_type (
 INSERT INTO tbl_stage_type (id, title) VALUES (0, 'Innledende');
 INSERT INTO tbl_stage_type (id, title) VALUES (1, 'Semifinale');
 INSERT INTO tbl_stage_type (id, title) VALUES (2, 'Finale');
+INSERT INTO tbl_stage_type (id, title) VALUES (3, 'Finale 2');
 
 CREATE TABLE round_status (
 	id INTEGER PRIMARY KEY,
@@ -95,7 +96,42 @@ INNER JOIN club cl ON pl.club_id = cl.id;
 INSERT INTO club (id, name) VALUES (1, 'Kniksen');
 INSERT INTO club (id, name) VALUES (2, 'Rambla');
 INSERT INTO player (id, firstname, lastname, club_id) VALUES (1, 'Eivind', 'Sommersten', 1);
-INSERT INTO player (id, firstname, lastname, club_id) VALUES (2, 'Håkon', 'Marås', 1);
+INSERT INTO round (player_id, stage_type_id, status_id) VALUES (1, 0, 0);
+INSERT INTO round (player_id, stage_type_id, status_id) VALUES (1, 1, 0);
+INSERT INTO round (player_id, stage_type_id, status_id) VALUES (1, 2, 0);
+INSERT INTO round (player_id, stage_type_id, status_id) VALUES (1, 3, 0);
+
+INSERT INTO player (id, firstname, lastname, club_id, status_id) VALUES (2, 'Håkon', 'Marås', 1, 2);
+INSERT INTO round (player_id, stage_type_id, status_id) VALUES (2, 0, 1);
+INSERT INTO throw (round_id, score) VALUES (5, 5);
+INSERT INTO throw (round_id, score) VALUES (5, 7);
+INSERT INTO throw (round_id, score) VALUES (5, 8);
+INSERT INTO throw (round_id, score) VALUES (5, 7);
+INSERT INTO throw (round_id, score) VALUES (5, 4);
+INSERT INTO round (player_id, stage_type_id, status_id) VALUES (2, 1, 1);
+INSERT INTO throw (round_id, score) VALUES (6, 9);
+INSERT INTO throw (round_id, score) VALUES (6, 8);
+INSERT INTO throw (round_id, score) VALUES (6, 5);
+INSERT INTO throw (round_id, score) VALUES (6, 0);
+INSERT INTO throw (round_id, score) VALUES (6, 7);
+
+INSERT INTO round (player_id, stage_type_id, status_id) VALUES (2, 2, 0);
+INSERT INTO round (player_id, stage_type_id, status_id) VALUES (2, 2, 0);
+
 INSERT INTO player (id, firstname, lastname, club_id) VALUES (3, 'Kjetil', 'Lilletvedt', 1);
+INSERT INTO round (player_id, stage_type_id, status_id) VALUES (3, 0, 0);
+INSERT INTO round (player_id, stage_type_id, status_id) VALUES (3, 1, 0);
+INSERT INTO round (player_id, stage_type_id, status_id) VALUES (3, 2, 0);
+INSERT INTO round (player_id, stage_type_id, status_id) VALUES (3, 2, 0);
+
 INSERT INTO player (id, firstname, lastname, club_id) VALUES (4, 'Cato', 'Ervik', 1);
+INSERT INTO round (player_id, stage_type_id, status_id) VALUES (4, 0, 0);
+INSERT INTO round (player_id, stage_type_id, status_id) VALUES (4, 1, 0);
+INSERT INTO round (player_id, stage_type_id, status_id) VALUES (4, 2, 0);
+INSERT INTO round (player_id, stage_type_id, status_id) VALUES (4, 2, 0);
+
 INSERT INTO player (id, firstname, lastname, club_id) VALUES (5, 'Fredrik', 'Larsen', 2);
+INSERT INTO round (player_id, stage_type_id, status_id) VALUES (5, 0, 0);
+INSERT INTO round (player_id, stage_type_id, status_id) VALUES (5, 1, 0);
+INSERT INTO round (player_id, stage_type_id, status_id) VALUES (5, 2, 0);
+INSERT INTO round (player_id, stage_type_id, status_id) VALUES (5, 2, 0);

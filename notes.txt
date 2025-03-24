@@ -9,7 +9,7 @@ REGSISTRERING (slagere)
 
 
 KONKURRANSE [innledende | semifinale | finale]
-    bekreftede / pågående / ferdige / kansellerte
+    pågående / ferdige / kansellerte
     endre rekkefølge
     runde
         starte
