@@ -4,9 +4,16 @@ import ScoreboardDialog from "./ScoreboardDialog.js";
 
 class PlayerRow extends View {
     get tagName() { return 'tr'; }
+    get attributes() {
+        return {
+            draggable: true
+        };
+    }
     get events() {
         return {
-            'click .stage': 'stage'
+            'click .stage': 'stage',
+            'click .dn': 'dn',
+            'click .up': 'up'
         };
     }
     stage(e) {
@@ -20,12 +27,25 @@ class PlayerRow extends View {
             model.save().then(() => this.showStage(model));
         }
     }
+    dn(e) {
+        e.preventDefault();
+        this.$el.insertAfter(this.$el.next());
+    }
+    up(e) {
+        e.preventDefault();
+        this.$el.insertBefore(this.$el.prev());
+    }
     showStage(model) {
         const d = new ScoreboardDialog({ model, player: this.model });
+        this.listenToOnce(d, 'close', () => this.trigger('changed'));
         d.render().show();
     }
     get template() {
         return /* html */ `
+            <td>
+                <button class="btn btn-sm btn-secondary up">▲</button>
+                <button class="btn btn-sm btn-secondary dn">▼</button>
+            </td>
             <td>${this.model.get('firstname')} ${this.model.get('lastname')}</td>
             <td>${this.model.get('club_name')}</td>
             <td class="text-center"><button class="btn ${this.model.stageCls(0)} btn-sm score stage" data-stage="0">${this.model.stageStr(0)}</button></td>
@@ -47,6 +67,7 @@ export default class PlayerList extends View {
             <table class="table table-hover table-striped">
                 <thead>
                     <tr>
+                        <th style="width: 100px;"></th>
                         <th class="cursor-pointer">Navn</th>
                         <th class="cursor-pointer">Klubb</th>
                         <th class="score text-center">Innledende</th>
@@ -61,6 +82,7 @@ export default class PlayerList extends View {
     }
     addOne(model) {
         const row = new PlayerRow({ model });
+        this.listenToOnce(row, 'changed', this.render);
         row.render().$el.appendTo(this.$('tbody'));
     }
     render() {

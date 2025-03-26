@@ -123,9 +123,6 @@ INSERT INTO throw (round_id, score) VALUES (6, 5);
 INSERT INTO throw (round_id, score) VALUES (6, 0);
 INSERT INTO throw (round_id, score) VALUES (6, 7);
 
-INSERT INTO round (player_id, stage_type_id, status_id) VALUES (2, 2, 0);
-INSERT INTO round (player_id, stage_type_id, status_id) VALUES (2, 2, 0);
-
 INSERT INTO player (id, firstname, lastname, club_id) VALUES (3, 'Kjetil', 'Lilletvedt', 1);
 INSERT INTO round (player_id, stage_type_id, status_id) VALUES (3, 0, 0);
 INSERT INTO round (player_id, stage_type_id, status_id) VALUES (3, 1, 0);

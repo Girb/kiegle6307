@@ -18,13 +18,15 @@ export default class ModalView extends View {
                     </div>
                     <div class="modal-body">${this.content || ''}</div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary ok">Lagre</button>
-                        <button type="button" class="btn btn-secondary cancel">Avbryt</button>
+                        <button type="button" class="btn btn-primary ok">${this.confirmText}</button>
+                        <button type="button" class="btn btn-secondary cancel">${this.cancelText}</button>
                     </div>
                 </div>
             </div>     
         `;
     }
+    get confirmText() { return 'Lagre'; }
+    get cancelText() { return 'Avbryt'; }
     get content() {
     }
     renderBody(el) {
@@ -40,6 +42,7 @@ export default class ModalView extends View {
         this.el.addEventListener('hidden.bs.modal', () => {
             this.$returnFocusTo && this.$returnFocusTo.focus();
             this.remove();
+            this.trigger('close');
         });
         this.el.addEventListener('shown.bs.modal', () => {
             _.defer(() => {
