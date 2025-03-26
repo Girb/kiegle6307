@@ -2,6 +2,7 @@ import Controller from '../../Controller.js';
 import View from '../../views/View.js';
 import { PlayerCollection } from '../models/Player.js';
 import PlayerList from './PlayerList.js';
+import TestView from './TestView.js';
 
 export default class MainView extends View {
     get events() {
@@ -34,6 +35,7 @@ export default class MainView extends View {
                     </div>
                 </div>
                 <div class="list"></div>
+                <div class="mt-4 p-3 bg-secondary-subtle test"></div>
             </div>
         `;
     }
@@ -47,6 +49,8 @@ export default class MainView extends View {
     render() {
         super.render();
         this.renderList();
+        const tv = new TestView();
+        tv.render().$el.appendTo(this.$('.test'));
         return this;
     }
 }

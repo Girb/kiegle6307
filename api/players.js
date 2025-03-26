@@ -58,11 +58,23 @@ export default db => {
     });
 
     api.put('/:id?', (req, res) => {
-        const stmt = db.prepare('UPDATE player SET firstname = ?, lastname = ?, club_id = ?, status_id = ? WHERE id = ?');
+        let stmt = db.prepare('UPDATE player SET firstname = ?, lastname = ?, club_id = ?, status_id = ? WHERE id = ?');
         const result = stmt.run([req.body.firstname, req.body.lastname, req.body.club_id, req.body.status_id, req.body.id]);
+        if (req.body.status_id === 1) {
+            stmt = db.prepare('UPDATE player set sort_order = (select max(sort_order) + 1 from player where status_id IN (1,2)) where id = ?');
+            stmt.run(req.body.id);
+        }
         res.status(200).json(result);
     });
 
+    api.post('/sorting', (req, res) => {
+        const update = db.prepare('UPDATE player set sort_order = @sort_order where id = @id');
+        const updateMany = db.transaction((ps) => {
+            for (const p of ps) update.run(p);
+        });
+        updateMany(req.body);
+        res.status(200).json('{}');
+    });
 
     return api;
 };

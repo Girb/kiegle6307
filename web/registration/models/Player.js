@@ -25,4 +25,13 @@ export default class Player extends Backbone.Model {
 
 export class PlayerCollection extends Backbone.Collection {
     get model() { return Player; }
+    saveSortOrders() {
+        fetch('/api/players/sorting', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(this.map(p => ({ id: p.id, sort_order: p.get('sort_order') })))
+        });
+    }
 }

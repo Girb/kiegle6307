@@ -15,7 +15,8 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, 'web')));
 
 // const db = new Database(':memory:', { verbose: console.log });
-const db = new Database(':memory:');
+// const db = new Database(':memory:');
+const db = new Database(path.join(__dirname, 'test.db'));
 db.pragma('journal_mode = WAL');
 // const db = new sqlite3.Database(':memory:');
 // const db = new sqlite3.Database('test.db');

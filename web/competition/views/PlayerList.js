@@ -30,10 +30,12 @@ class PlayerRow extends View {
     dn(e) {
         e.preventDefault();
         this.$el.insertAfter(this.$el.next());
+        this.trigger('change:order');
     }
     up(e) {
         e.preventDefault();
         this.$el.insertBefore(this.$el.prev());
+        this.trigger('change:order');
     }
     showStage(model) {
         const d = new ScoreboardDialog({ model, player: this.model });
@@ -80,14 +82,23 @@ export default class PlayerList extends View {
             </table>
         `;
     }
+    saveSorting() {
+        this.rows.forEach(row => {
+            row.model.set('sort_order', row.$el.index());
+        });
+        this.collection.saveSortOrders();
+    }
     addOne(model) {
         const row = new PlayerRow({ model });
         this.listenToOnce(row, 'changed', this.render);
+        this.listenTo(row, 'change:order', this.saveSorting);
         row.render().$el.appendTo(this.$('tbody'));
+        this.rows.push(row);
     }
     render() {
         super.render();
         this.collection.fetch().then(() => {
+            this.rows = [];
             this.collection.each(this.addOne, this);
         });
         return this;
