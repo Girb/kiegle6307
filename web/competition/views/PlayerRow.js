@@ -21,7 +21,7 @@ export default class PlayerRow extends View {
         const stage = this.stage;
         const model = new Round();
         model.url = `/api/rounds/player/${this.model.get('id')}/type/${stage}`;
-        if (this.model.get('score') !== undefined) {
+        if (this.model.get('score') !== null) {
             model.fetch().then(() => this.showStage(model));
         } else {
             model.save().then(() => this.showStage(model));

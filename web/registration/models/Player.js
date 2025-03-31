@@ -10,7 +10,7 @@ export default class Player extends Backbone.Model {
         return `Ukjent status (${id})`;
     }
     stageStr(typeid) {
-        if (this.get('score') !== undefined) {
+        if (this.get('score') !== null) {
             return this.get('score');
         }
         return '+';

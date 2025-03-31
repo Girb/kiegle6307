@@ -21,10 +21,10 @@ export default db => {
         res.status(200).json(getRound(id));
     });
 
-    api.post('/player/:playerid/type/:typeid', (req, res) => {
+    api.post('/player/:playerid/type/:statusid', (req, res) => {
         let sql = 'INSERT INTO round (player_id, player_status_id, status_id) VALUES (?, ?, ?) RETURNING id;';
         let stmt = db.prepare(sql);
-        const result = stmt.get(req.params.playerid, req.params.typeid, 0);
+        const result = stmt.get(req.params.playerid, req.params.statusid, 0);
         sql = 'INSERT INTO throw (round_id) VALUES (?);'
         stmt = db.prepare(sql);
         for (let i = 0; i < 10; i++) {
@@ -40,6 +40,7 @@ export default db => {
             where r.player_id = ? AND p.current_status_id = ?`;
         let stmt = db.prepare(sql);
         const result = stmt.get(req.params.playerid, req.params.statusid);
+        console.log(result);
         res.status(200).json(getRound(result.id));
     });
 
