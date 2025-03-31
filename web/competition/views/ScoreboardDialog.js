@@ -3,7 +3,7 @@ import ScoreboardView from './ScoreboardView.js'
 
 export default class ScoreboardDialog extends ModalView {
     get title() {
-        return this.player.get('firstname') + ' ' + this.player.get('lastname');
+        return this.player.get('firstname') + ' ' + this.player.get('lastname') + ' - ' + this.model.get('status_name');
     }
     get cancelText() { return 'Lukk'; }
     get events() {

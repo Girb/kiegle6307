@@ -3,7 +3,11 @@ import { Router } from "express"
 export default db => {
 
     const getRound = id => {
-        let sql = 'SELECT * from round where id = ?';
+        let sql = `SELECT *, ps.title as status_name
+                from round
+                inner join player p on p.id = round.player_id
+                inner join player_status ps on ps.id = p.current_status_id
+                where round.id = ?`;
         let stmt = db.prepare(sql);
         const row = stmt.get(id);
         sql = 'SELECT * from throw where round_id = ?';
@@ -18,7 +22,7 @@ export default db => {
     });
 
     api.post('/player/:playerid/type/:typeid', (req, res) => {
-        let sql = 'INSERT INTO round (player_id, stage_type_id, status_id) VALUES (?, ?, ?) RETURNING id;';
+        let sql = 'INSERT INTO round (player_id, player_status_id, status_id) VALUES (?, ?, ?) RETURNING id;';
         let stmt = db.prepare(sql);
         const result = stmt.get(req.params.playerid, req.params.typeid, 0);
         sql = 'INSERT INTO throw (round_id) VALUES (?);'
@@ -29,10 +33,13 @@ export default db => {
         res.status(200).json(getRound(result.id));
     });
 
-    api.get('/player/:playerid/type/:typeid', (req, res) => {
-        let sql = 'SELECT id from round where player_id = ? AND stage_type_id = ?';
+    api.get('/player/:playerid/type/:statusid', (req, res) => {
+        let sql = `SELECT r.id as id
+            from round r
+            inner join player p on p.id = r.player_id
+            where r.player_id = ? AND p.current_status_id = ?`;
         let stmt = db.prepare(sql);
-        const result = stmt.get(req.params.playerid, req.params.typeid);
+        const result = stmt.get(req.params.playerid, req.params.statusid);
         res.status(200).json(getRound(result.id));
     });
 

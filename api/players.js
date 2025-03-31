@@ -11,8 +11,8 @@ const buildPlayerList = rows => {
         m.get(row.player_id).firstname = row.firstname;
         m.get(row.player_id).lastname = row.lastname;
         m.get(row.player_id).club_name = row.club_name;
-        if (row.stage_type_id !== null) {
-            m.get(row.player_id)['stage' + row.stage_type_id] = row.score;
+        if (row.player_status_id !== null) {
+            m.get(row.player_id)['stage' + row.player_status_id] = row.score;
         }
     });
     return [...m.values()];
@@ -27,27 +27,18 @@ export default db => {
         res.status(200).json(rows);
     });
 
-    api.get('/competition', (req, res) => {
+    api.get('/competition/:statusid', (req, res) => {
         let sql = `
-            WITH rounds AS (
-                select id, player_id from round
-            )
-            select p.firstname, p.lastname, p.sort_order, c.name as club_name, r.id, r.player_id, r.stage_type_id, r.status_id, sum(score) as score
+            select p.id, p.firstname, p.lastname, c.name as club_name, p.sort_order, r.id, r.player_id, r.status_id, sum(score) as score
             from throw t
             inner join round r on r.id = t.round_id
             inner join player p on p.id = r.player_id
             inner join club c on c.id = p.club_id
-            where round_id IN (SELECT id from rounds)
-            GROUP BY round_id
-            UNION
-            select p.firstname, p.lastname, p.sort_order, c.name as club_name, NULL, p.id as player_id, NULL, NULL, NULL
-            from player p
-            inner join club c on c.id = p.club_id
-            where p.status_id IN (1,2)
-            order by p.sort_order;
+            where p.current_status_id = ?
+            GROUP BY p.id;
         `;
         const stmt = db.prepare(sql);
-        const rows = buildPlayerList(stmt.all());
+        const rows = stmt.all(req.params.statusid);
         res.status(200).json(rows);
     });
 
@@ -58,8 +49,8 @@ export default db => {
     });
 
     api.put('/:id?', (req, res) => {
-        let stmt = db.prepare('UPDATE player SET firstname = ?, lastname = ?, club_id = ?, status_id = ? WHERE id = ?');
-        const result = stmt.run([req.body.firstname, req.body.lastname, req.body.club_id, req.body.status_id, req.body.id]);
+        let stmt = db.prepare('UPDATE player SET firstname = ?, lastname = ?, club_id = ?, current_status_id = ? WHERE id = ?');
+        const result = stmt.run([req.body.firstname, req.body.lastname, req.body.club_id, req.body.current_status_id, req.body.id]);
         if (req.body.status_id === 1) {
             stmt = db.prepare('UPDATE player set sort_order = (select max(sort_order) + 1 from player where status_id IN (1,2)) where id = ?');
             stmt.run(req.body.id);

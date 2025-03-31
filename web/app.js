@@ -1,6 +1,7 @@
 import { default as MainViewReg } from "./registration/views/MainView.js";
 import { default as MainViewComp } from "./competition/views/MainView.js";
 import TopNav from "./registration/views/TopNav.js";
+import * as Stages from './Stages.js';
 
 class App extends Backbone.Router {
   start() {
@@ -13,7 +14,9 @@ class App extends Backbone.Router {
     return {
       '': 'reg',
       'registrering': 'reg',
-      'konkurranse': 'comp'
+      'innledende': 'innledende',
+      'semi': 'semi',
+      'finale': 'finale'
     };
   } 
   renderTopNav() {
@@ -25,9 +28,19 @@ class App extends Backbone.Router {
     const v = new MainViewReg();
     v.render().$el.appendTo($('main').empty());
   }
-  comp() {
+  innledende() {
     this.renderTopNav();
-    const v = new MainViewComp();
+    const v = new MainViewComp({ stage: Stages.INNLEDENDE });
+    v.render().$el.appendTo($('main').empty());
+  }
+  semi() {
+    this.renderTopNav();
+    const v = new MainViewComp({ stage: Stages.SEMI });
+    v.render().$el.appendTo($('main').empty());
+  }
+  finale() {
+    this.renderTopNav();
+    const v = new MainViewComp({ stage: Stages.FINALE });
     v.render().$el.appendTo($('main').empty());
   }
 };

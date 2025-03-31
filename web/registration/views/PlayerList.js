@@ -16,7 +16,7 @@ class PlayerRow extends View {
     }
     toggleConfirm(e) {
         e.preventDefault();
-        this.model.save({ status_id: this.model.get('status_id') ^ 1 }).then(() => this.render());
+        this.model.save({ current_status_id: this.model.get('current_status_id') ^ 1 }).then(() => this.render());
     }
     get template() {
         return /* html */ `
@@ -36,9 +36,9 @@ class PlayerRow extends View {
         super.render();
         this.$('.confirm')
             .toggleClass('d-none', this.model.get('status_id') > 1)
-            .text(this.model.get('status_id') === 0 ? 'Bekreft oppmøte' : 'Oppmøte bekreftet');
+            .text(this.model.get('current_status_id') === 0 ? 'Bekreft oppmøte' : 'Oppmøte bekreftet');
         this.$('.lbl')
-            .toggleClass('d-none', this.model.get('status_id') < 2)
+            .toggleClass('d-none', this.model.get('current_status_id') < 2)
             .text(this.model.statusTxt())
         return this;
     }

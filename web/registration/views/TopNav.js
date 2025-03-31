@@ -11,7 +11,13 @@ export default class TopNav extends View {
                         <a class="nav-link active" aria-current="page" href="#registrering">Registrering</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#konkurranse">Konkurranse</a>
+                        <a class="nav-link" href="#innledende">Innledende</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#semi">Semi</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#finale">Finale</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#resultater">Resultater</a>

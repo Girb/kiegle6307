@@ -1,7 +1,7 @@
 export default class Player extends Backbone.Model {
     get urlRool() { return '/api/players'; }
     statusTxt() {
-        const id =  this.get('status_id');
+        const id =  this.get('current_status_id');
         if (id === 0) return 'Registrert';
         if (id === 1) return 'Bekreftet';
         if (id === 2) return 'I gang';
@@ -10,13 +10,13 @@ export default class Player extends Backbone.Model {
         return `Ukjent status (${id})`;
     }
     stageStr(typeid) {
-        if (this.get('stage' + typeid) !== undefined) {
-            return this.get('stage' + typeid) || '-';
+        if (this.get('score') !== undefined) {
+            return this.get('score');
         }
         return '+';
     }
     stageCls(typeid) {
-        if (this.get('stage' + typeid) !== undefined) {
+        if (this.get('score') !== undefined) {
             return 'btn-outline-success';
         }
         return 'btn-primary';
