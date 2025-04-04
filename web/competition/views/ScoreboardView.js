@@ -31,8 +31,8 @@ export default class ScoreboardView extends View {
 
         this.items = [];
         for (let i = 0; i < throws.length; i += 1) {
-            const typeid = this.model.get('stage_type_id');
-            const sep = (i === 4 && (typeid === 0 || typeid === 1)); // innledende/semi er 5 + 5
+            const psid = this.model.get('player_status_id');
+            const sep = (i === 4 && (psid === 1 || psid === 2)); // innledende/semi er 5 + 5
             const ss = new SingleScoreView({ throw: throws[i], round: this.model, separator: sep });
             this.listenTo(ss, 'focus:next', this.focusNext);
             this.listenTo(ss, 'focus:prev', this.focusPrev);

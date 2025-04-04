@@ -10,6 +10,7 @@ export default class PlayerList extends View {
                         <th style="width: 100px;"></th>
                         <th class="cursor-pointer">Navn</th>
                         <th class="cursor-pointer">Klubb</th>
+                        <th class="cursor-pointer">Slag</th>
                         <th class="score text-center">Poeng</th>
                         <th class="score text-center d-none"></th>
                         <th style="width: 100px;"></th>

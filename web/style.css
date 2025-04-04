@@ -23,7 +23,7 @@ button.score { width: 48px; }
     text-align: center; display: inline-block; padding: 0; margin: 0; flex-grow: 2; cursor: pointer; border: 1px solid transparent;
 }
 .scoreboard span:focus-within { outline: none; box-shadow: 0 0 15px rgba(81, 203, 238, 1); border: 1px solid rgba(81, 203, 238, 1); }
-.scoreboard span.sep { border-right: solid red 1px; }
+.scoreboard span.sep { border-right: solid red 2px; }
 
 table tbody tr:first-child button.up { visibility: hidden; opacity: 0; }
 table tbody tr:last-child button.dn { visibility: hidden; opacity: 0; }

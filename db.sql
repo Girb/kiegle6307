@@ -52,5 +52,13 @@ CREATE TABLE IF NOT EXISTS throw (
 
 --- VIEWS
 
+CREATE VIEW IF NOT EXISTS rounds as 
+	select r.id as round_id, r.player_id, r.player_status_id, count (*) as count, sum(score) as score
+	from throw t
+	inner join round r on r.id = t.round_id
+	where t.score IS NOT NULL
+	group by r.player_id
+;
+
 INSERT OR REPLACE INTO club (id, name) VALUES (1, 'Kniksen');
 INSERT OR REPLACE INTO club (id, name) VALUES (2, 'Rambla');

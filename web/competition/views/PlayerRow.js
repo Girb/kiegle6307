@@ -50,7 +50,10 @@ export default class PlayerRow extends View {
             </td>
             <td>${this.model.get('firstname')} ${this.model.get('lastname')}</td>
             <td>${this.model.get('club_name')}</td>
-            <td class="text-center"><button class="btn ${this.model.stageCls(0)} btn-sm score stage" data-stage="0">${this.model.stageStr(0)}</button></td>
+            <td class="text-muted">${this.model.get('count')} / 10</td>
+            <td class="text-center">
+                <button class="btn ${this.model.stageCls(0)} btn-sm score stage ms-2" data-stage="0">${this.model.stageStr(0)}</button>
+            </td>
             <td class="text-center d-none"></td>
             <td><button class="btn btn-success done">Ferdig</button></td>
         `;

@@ -28,21 +28,35 @@ export default db => {
     });
 
     api.get('/competition/:statusid', (req, res) => {
+        // let sql = `
+        //     select p.id, p.firstname, p.lastname, c.name as club_name, p.sort_order, r.player_id, r.status_id, sum(score) as score
+        //     from throw t
+        //     inner join round r on r.id = t.round_id
+        //     inner join player p on p.id = r.player_id
+        //     inner join club c on c.id = p.club_id
+        //     where p.current_status_id = ?
+        //     GROUP BY p.id
+        //     UNION
+        //     select p.id, p.firstname, p.lastname, c.name as club_name, p.sort_order, NULL, NULL, NULL
+        //     from player p
+        //     INNER JOIN club c on c.id = p.club_id
+        //     order by p.sort_order;
+        // `;
         let sql = `
-            select p.id, p.firstname, p.lastname, c.name as club_name, p.sort_order, r.player_id, r.status_id, sum(score) as score
-            from throw t
-            inner join round r on r.id = t.round_id
-            inner join player p on p.id = r.player_id
+            select p.id, p.firstname, p.lastname, c.name as club_name, count, score from rounds rs
+            inner join player p on p.id = rs.player_id
             inner join club c on c.id = p.club_id
-            where p.current_status_id = ?
-            GROUP BY p.id
+            inner join round r on r.id = rs.round_id
+            where r.player_status_id = ?
+            group by p.id
             UNION
-            select p.id, p.firstname, p.lastname, c.name as club_name, p.sort_order, NULL, NULL, NULL
+            select p.id, p.firstname, p.lastname, c.name as club_name, 0, null
             from player p
-            INNER JOIN club c on c.id = p.club_id;
+            inner join club c on c.id = p.club_id
+            where p.current_status_id = ?;
         `;
         const stmt = db.prepare(sql);
-        const rows = stmt.all(req.params.statusid);
+        const rows = stmt.all(req.params.statusid, req.params.statusid);
         res.status(200).json(rows);
     });
 
