@@ -13,7 +13,8 @@ export default class PlayerRow extends View {
         return {
             'click .stage': 'stage',
             'click .dn': 'dn',
-            'click .up': 'up'
+            'click .up': 'up',
+            'click .done': 'done'
         };
     }
     stage(e) {
@@ -41,6 +42,10 @@ export default class PlayerRow extends View {
         const d = new ScoreboardDialog({ model, player: this.model });
         this.listenToOnce(d, 'close', () => this.trigger('changed'));
         d.render().show();
+    }
+    done(e) {
+        e.preventDefault();
+        this.model.setStatus(2).then(() => this.remove());
     }
     get template() {
         return /* html */ `

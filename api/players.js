@@ -76,6 +76,12 @@ export default db => {
         res.status(200).json(result);
     });
 
+    api.post('/:id/status/:statusid', (req, res) => {
+        let stmt = db.prepare('UPDATE player SET current_status_id = ? WHERE id = ?');
+        const result = stmt.run([req.params.statusid, req.params.id]);
+        res.status(200).json(result);
+    });
+
     api.post('/sorting', (req, res) => {
         const update = db.prepare('UPDATE player set sort_order = @sort_order where id = @id');
         const updateMany = db.transaction((ps) => {

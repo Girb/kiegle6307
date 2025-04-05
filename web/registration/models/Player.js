@@ -1,5 +1,13 @@
 export default class Player extends Backbone.Model {
     get urlRool() { return '/api/players'; }
+    setStatus(statusid) {
+        return fetch(`/api/players/${this.id}/status/${statusid}`,
+            {
+                method: 'POST',
+                body: JSON.stringify({}),
+            }
+        );
+    }
     statusTxt() {
         const id =  this.get('current_status_id');
         if (id === 0) return 'Registrert';
