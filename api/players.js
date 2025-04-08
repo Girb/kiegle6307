@@ -48,6 +48,7 @@ export default db => {
             inner join club c on c.id = p.club_id
             inner join round r on r.id = rs.round_id
             where r.player_status_id = ?
+            and p.current_status_id = ?
             group by p.id
             UNION
             select p.id, p.firstname, p.lastname, c.name as club_name, 0, null
@@ -56,7 +57,7 @@ export default db => {
             where p.current_status_id = ?;
         `;
         const stmt = db.prepare(sql);
-        const rows = stmt.all(req.params.statusid, req.params.statusid);
+        const rows = stmt.all(req.params.statusid, req.params.statusid, req.params.statusid);
         res.status(200).json(rows);
     });
 
