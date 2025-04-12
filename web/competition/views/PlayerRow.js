@@ -12,22 +12,10 @@ export default class PlayerRow extends View {
     }
     get events() {
         return {
-            'click .stage': 'stage',
             'click .dn': 'dn',
             'click .up': 'up',
             'click .done': 'done'
         };
-    }
-    stage(e) {
-        e.preventDefault();
-        const stage = this.stage;
-        const model = new Round();
-        model.url = `/api/rounds/${this.model.get('rounds')[0].round_id}`;
-        if (this.model.get('score') !== null) {
-            model.fetch().then(() => this.showStage(model));
-        } else {
-            model.save().then(() => this.showStage(model));
-        }
     }
     dn(e) {
         e.preventDefault();
@@ -39,11 +27,7 @@ export default class PlayerRow extends View {
         this.$el.insertBefore(this.$el.prev());
         this.trigger('change:order');
     }
-    showStage(model) {
-        const d = new ScoreboardDialog({ model, player: this.model });
-        this.listenToOnce(d, 'close', () => this.trigger('changed'));
-        d.render().show();
-    }
+    
     done(e) {
         e.preventDefault();
         this.model.setStatus(2).then(() => this.remove());
@@ -68,6 +52,7 @@ export default class PlayerRow extends View {
         super.render();
         for (let i = 0; i <= 3; i++) {
             const btn = new ScoreButtonView({ model: this.model.rounds.at(i) });
+            this.listenTo(btn, 'changed', () => this.trigger('changed'));
             btn.render().$el.appendTo(this.$('.stage' + (i+1))); // this.$(`.stage{i}`));
         }
         return this;
