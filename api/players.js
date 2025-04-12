@@ -2,21 +2,6 @@ import { Router } from "express";
 
 const logError = err => err && console.log(err.message);
 
-const buildPlayerList = rows => {
-    const m = new Map();
-    rows.forEach(row => {
-        if (!m.has(row.player_id)) {
-            m.set(row.player_id, { id: row.player_id });
-        }
-        m.get(row.player_id).firstname = row.firstname;
-        m.get(row.player_id).lastname = row.lastname;
-        m.get(row.player_id).club_name = row.club_name;
-        if (row.player_status_id !== null) {
-            m.get(row.player_id)['stage' + row.player_status_id] = row.score;
-        }
-    });
-    return [...m.values()];
-};
 
 export default db => {
     const api = Router();
@@ -27,59 +12,62 @@ export default db => {
         res.status(200).json(rows);
     });
 
-    api.get('/competition/:statusid', (req, res) => {
-        // let sql = `
-        //     select p.id, p.firstname, p.lastname, c.name as club_name, p.sort_order, r.player_id, r.status_id, sum(score) as score
-        //     from throw t
-        //     inner join round r on r.id = t.round_id
-        //     inner join player p on p.id = r.player_id
-        //     inner join club c on c.id = p.club_id
-        //     where p.current_status_id = ?
-        //     GROUP BY p.id
-        //     UNION
-        //     select p.id, p.firstname, p.lastname, c.name as club_name, p.sort_order, NULL, NULL, NULL
-        //     from player p
-        //     INNER JOIN club c on c.id = p.club_id
-        //     order by p.sort_order;
-        // `;
-        let sql = `
-            select p.id, p.firstname, p.lastname, c.name as club_name, count, score from rounds rs
-            inner join player p on p.id = rs.player_id
-            inner join club c on c.id = p.club_id
-            inner join round r on r.id = rs.round_id
-            where r.player_status_id = ?
-            and p.current_status_id = ?
-            group by p.id
-            UNION
-            select p.id, p.firstname, p.lastname, c.name as club_name, 0, null
-            from player p
-            inner join club c on c.id = p.club_id
-            where p.current_status_id = ?;
-        `;
-        const stmt = db.prepare(sql);
-        const rows = stmt.all(req.params.statusid, req.params.statusid, req.params.statusid);
-        res.status(200).json(rows);
-    });
+    // api.get('/competition/:stageid', (req, res) => {
+    //     let sql = `
+    //         select p.id, p.firstname, p.lastname, c.name as club_name, count, score from rounds rs
+    //         inner join player p on p.id = rs.player_id
+    //         inner join club c on c.id = p.club_id
+    //         inner join round r on r.id = rs.round_id
+    //         where r.stage_id = ?
+    //         and p.current_stage_id = ?
+    //         group by p.id
+    //         UNION
+    //         select p.id, p.firstname, p.lastname, c.name as club_name, 0, null
+    //         from player p
+    //         inner join club c on c.id = p.club_id
+    //         where p.current_stage_id = ?;
+    //     `;
+    //     const stmt = db.prepare(sql);
+    //     const rows = stmt.all(req.params.stageid, req.params.stageid, req.params.stageid);
+    //     res.status(200).json(rows);
+    // });
 
     api.post('/', (req, res) => {
-        const stmt = db.prepare('INSERT INTO player (firstname, lastname, club_id) VALUES (?, ?, ?)');
-        const result = stmt.run([req.body.firstname, req.body.lastname, req.body.club_id]);
+        const insertPlayer = db.prepare('INSERT INTO player (firstname, lastname, club_id) VALUES (?, ?, ?)');
+        const result = insertPlayer.run([req.body.firstname, req.body.lastname, req.body.club_id]);
+
+        const insertRound = db.prepare('INSERT INTO round (player_id, stage_id, status_id) VALUES (?, ?, ?) RETURNING id;'); 
+        const insertThrow = db.prepare('INSERT INTO throw (round_id) VALUES (?);')
+        const insertThrowMany = db.transaction(id => {
+            for (let i = 0; i < 10; i++) {
+                insertThrow.run(id);
+            }
+        });
+        for (let i = 1; i <= 4; i++) {
+            const roundResult = insertRound.run([result.lastInsertRowid, i, 0]);
+            insertThrowMany(roundResult.lastInsertRowid);
+        }
+        
         res.status(200).json(result);
     });
 
     api.put('/:id?', (req, res) => {
-        let stmt = db.prepare('UPDATE player SET firstname = ?, lastname = ?, club_id = ?, current_status_id = ? WHERE id = ?');
-        const result = stmt.run([req.body.firstname, req.body.lastname, req.body.club_id, req.body.current_status_id, req.body.id]);
-        if (req.body.status_id === 1) {
-            stmt = db.prepare('UPDATE player set sort_order = (select max(sort_order) + 1 from player where status_id IN (1,2)) where id = ?');
+        let stmt = db.prepare('UPDATE player SET firstname = ?, lastname = ?, club_id = ?, current_stage_id = ? WHERE id = ?');
+        const result = stmt.run([req.body.firstname, req.body.lastname, req.body.club_id, req.body.current_stage_id, req.body.id]);
+        if (req.body.stage_id === 1) {
+            stmt = db.prepare('UPDATE player set sort_order = (select max(sort_order) + 1 from player where current_stage_id IN (1,2)) where id = ?');
             stmt.run(req.body.id);
         }
         res.status(200).json(result);
     });
 
-    api.post('/:id/status/:statusid', (req, res) => {
-        let stmt = db.prepare('UPDATE player SET current_status_id = ? WHERE id = ?');
-        const result = stmt.run([req.params.statusid, req.params.id]);
+    api.post('/:id/stage/:stageid', (req, res) => {
+        // let stmt = db.prepare('UPDATE throw set score = NULL where stage_id = ? and player_id = ?');
+        // stmt.run([req.params.stageid, req.params.id]);
+
+        let stmt = db.prepare('UPDATE player SET current_stage_id = ? WHERE id = ?');
+        const result = stmt.run([req.params.stageid, req.params.id]);
+
         res.status(200).json(result);
     });
 

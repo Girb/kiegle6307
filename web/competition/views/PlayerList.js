@@ -10,8 +10,10 @@ export default class PlayerList extends View {
                         <th style="width: 100px;"></th>
                         <th class="cursor-pointer">Navn</th>
                         <th class="cursor-pointer">Klubb</th>
-                        <th class="cursor-pointer">Slag</th>
-                        <th class="score text-center">Poeng</th>
+                        <th style="width: 100px;" class="score text-center">Innledende</th>
+                        <th style="width: 100px;" class="score text-center">Semi</th>
+                        <th style="width: 100px;" class="score text-center">Finale 1</th>
+                        <th style="width: 100px;" class="score text-center">Finale 2</th>
                         <th class="score text-center d-none"></th>
                         <th style="width: 100px;"></th>
                     </tr>
@@ -35,7 +37,7 @@ export default class PlayerList extends View {
     }
     render() {
         super.render();
-        this.collection.fetch().then(() => {
+        this.collection.fetch({ parse: true }).then(() => {
             this.rows = [];
             this.collection.each(this.addOne, this);
         });

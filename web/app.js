@@ -14,33 +14,21 @@ class App extends Backbone.Router {
     return {
       '': 'reg',
       'registrering': 'reg',
-      'innledende': 'innledende',
-      'semi': 'semi',
-      'finale': 'finale'
+      'konkurranse': 'comp'
     };
   } 
-  renderTopNav() {
-    const t = new TopNav({ el: $('nav') });
+  renderTopNav(index) {
+    const t = new TopNav({ el: $('nav'), index });
     t.render();
   } 
   reg() {
-    this.renderTopNav();
+    this.renderTopNav(0);
     const v = new MainViewReg();
     v.render().$el.appendTo($('main').empty());
   }
-  innledende() {
-    this.renderTopNav();
-    const v = new MainViewComp({ stage: Stages.INNLEDENDE });
-    v.render().$el.appendTo($('main').empty());
-  }
-  semi() {
-    this.renderTopNav();
-    const v = new MainViewComp({ stage: Stages.SEMI });
-    v.render().$el.appendTo($('main').empty());
-  }
-  finale() {
-    this.renderTopNav();
-    const v = new MainViewComp({ stage: Stages.FINALE });
+  comp() {
+    this.renderTopNav(1);
+    const v = new MainViewComp();
     v.render().$el.appendTo($('main').empty());
   }
 };

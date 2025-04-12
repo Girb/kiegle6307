@@ -6,18 +6,12 @@ export default class TopNav extends View {
     get template() {
         return /* html */ `
             <div class="container-fluid justify-content-center">
-                <ul class="nav">
+                <ul class="nav nav-pills">
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="#registrering">Registrering</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#innledende">Innledende</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#semi">Semi</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#finale">Finale</a>
+                        <a class="nav-link" href="#konkurranse">Konkurranse</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#resultater">Resultater</a>
@@ -25,5 +19,10 @@ export default class TopNav extends View {
                 </ul>
             </div>
         `;
+    }
+    render() {
+        super.render();
+        this.$('a').removeClass('active').eq(this.index).addClass('active');
+        return this;
     }
 }
