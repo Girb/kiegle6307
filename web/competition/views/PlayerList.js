@@ -1,26 +1,22 @@
 import View from "../../views/View.js";
-import PlayerRow from "./PlayerRow.js";
+import { Stage1PlayerRow, Stage2PlayerRow } from "./PlayerRow.js";
 export default class PlayerList extends View {
     get template() {
         return /* html */ `
             <div class="tools"></div>
             <table class="table table-hover table-striped align-middle">
                 <thead>
-                    <tr>
-                        <th style="width: 100px;"></th>
-                        <th class="cursor-pointer">Navn</th>
-                        <th class="cursor-pointer">Klubb</th>
-                        <th style="width: 100px;" class="score text-center">Innledende</th>
-                        <th style="width: 100px;" class="score text-center">Semi</th>
-                        <th style="width: 100px;" class="score text-center">Finale 1</th>
-                        <th style="width: 100px;" class="score text-center">Finale 2</th>
-                        <th class="score text-center d-none"></th>
-                        <th style="width: 100px;"></th>
-                    </tr>
+                    <tr></tr>
                 </thead>
                 <tbody></tbody>
             </table>
         `;
+    }
+    get rowCls() {
+        if (this.stage === 2) {
+            return Stage2PlayerRow
+        }
+        return Stage1PlayerRow;
     }
     saveSorting() {
         this.rows.forEach(row => {
@@ -29,7 +25,7 @@ export default class PlayerList extends View {
         this.collection.saveSortOrders();
     }
     addOne(model) {
-        const row = new PlayerRow({ model, stage: this.stage });
+        const row = new this.rowCls({ model, stage: this.stage });
         this.listenToOnce(row, 'changed', this.render);
         this.listenTo(row, 'change:order', this.saveSorting);
         row.render().$el.appendTo(this.$('tbody'));
@@ -37,6 +33,7 @@ export default class PlayerList extends View {
     }
     render() {
         super.render();
+        this.$('thead tr').empty().append(this.rowCls.headerTemplate);
         this.collection.fetch({ parse: true }).then(() => {
             this.rows = [];
             this.collection.each(this.addOne, this);

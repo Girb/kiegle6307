@@ -12,7 +12,7 @@ export default class MainView extends View {
     }
     renderList() {
         const collection = new PlayerCollection();
-        collection.url = `/api/competition/1`;
+        collection.url = `/api/competition/${this.stage}`;
         const list = new PlayerList({ collection, stage: this.stage });
         list.render().$el.appendTo(this.$('.list').empty());
     }

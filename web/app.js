@@ -14,7 +14,7 @@ class App extends Backbone.Router {
     return {
       '': 'reg',
       'registrering': 'reg',
-      'konkurranse': 'comp'
+      'konkurranse/:stage': 'comp'
     };
   } 
   renderTopNav(index) {
@@ -26,9 +26,9 @@ class App extends Backbone.Router {
     const v = new MainViewReg();
     v.render().$el.appendTo($('main').empty());
   }
-  comp() {
+  comp(stage) {
     this.renderTopNav(1);
-    const v = new MainViewComp();
+    const v = new MainViewComp({ stage: parseInt(stage) });
     v.render().$el.appendTo($('main').empty());
   }
 };

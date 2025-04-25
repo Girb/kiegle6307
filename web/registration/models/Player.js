@@ -32,6 +32,11 @@ export default class Player extends Backbone.Model {
         }
         return 'btn-primary';
     }
+    semiScore() {
+        const s1s = this.rounds.at(0).get('score') || 0;
+        const s2s = this.rounds.at(1).get('score') || 0;
+        return s1s + s2s;
+    }
 }
 
 export class PlayerCollection extends Backbone.Collection {
