@@ -25,8 +25,8 @@ class PlayerRow extends View {
             <td>${this.model.get('club_name')}</td>
             <td>
                 <div class="d-flex justify-content-end">
+                <div class="text-muted me-1 pe-1 lbl"></div>
                     <button class="btn me-1 btn${this.model.get('stage_id') === 0 ? '-outline' : ''}-success btn-sm confirm ${this.model.get('stage_id') === 1 ? 'active' : ''}"></button>
-                    <div class="text-muted me-1 pe-1 lbl d-none"></div>
                     <button class="btn btn-outline-primary btn-sm edit">Rediger</button>
                 </div>
             </td>
@@ -35,10 +35,10 @@ class PlayerRow extends View {
     render() {
         super.render();
         this.$('.confirm')
-            .toggleClass('d-none', this.model.get('stage_id') > 1)
+            .toggleClass('d-none', this.model.get('current_stage_id') !== 0)
             .text(this.model.get('current_stage_id') === 0 ? 'Bekreft oppmøte' : 'Oppmøte bekreftet');
         this.$('.lbl')
-            .toggleClass('d-none', this.model.get('current_stage_id') < 2)
+            .toggleClass('d-none', this.model.get('current_stage_id') === 0)
             .text(this.model.statusTxt())
         return this;
     }

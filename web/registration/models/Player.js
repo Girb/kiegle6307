@@ -17,10 +17,12 @@ export default class Player extends Backbone.Model {
     statusTxt() {
         const id =  this.get('current_stage_id');
         if (id === 0) return 'Registrert';
-        if (id === 1) return 'Bekreftet';
-        if (id === 2) return 'I gang';
-        if (id === 3) return 'Ferdig';
-        if (id === 4) return 'Kansellert';
+        if (id === 1) return 'Bekreftet / Innledende';
+        if (id === 2) return 'Semifinale';
+        if (id === 3) return 'Finale ';
+        if (id === 4) return 'Finale 2';
+        if (id === 5) return 'Ferdig';
+        if (id === 6) return 'Kansellert / Ikke møtt';
         return `Ukjent status (${id})`;
     }
     stageStr(stageid) {
@@ -37,6 +39,9 @@ export default class Player extends Backbone.Model {
         const s2s = this.rounds.at(1).get('score') || 0;
         return s1s + s2s;
     }
+    totalScore() {
+        return this.rounds.reduce((sum, r) => sum + (r.get('score') || 0), 0);
+    }   
 }
 
 export class PlayerCollection extends Backbone.Collection {
