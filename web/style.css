@@ -27,3 +27,18 @@ button.score { width: 48px; }
 
 table tbody tr:first-child button.up { visibility: hidden; opacity: 0; }
 table tbody tr:last-child button.dn { visibility: hidden; opacity: 0; }
+
+.publicqueue {
+  font-size: 3.75vh; padding: 16px; overflow: hidden; background-color: #222;
+  @media only screen and (max-width: 640px) {
+    font-size: 2vh;
+  }
+}
+
+.publicqueue .bgcontainer { position: fixed; left: 0; right: 0; top: 0; bottom: 0; }
+.publicqueue table { margin: 0 auto; z-index: 999; }
+.publicqueue table td { padding-right: 5vw; color: white; }
+.publicqueue .circle { position: absolute; top: 50%; left: 3%; border-radius: 50%; border-width: 8px !important; overflow: hidden; transform: translate3d(-50%,-50%,0); transform-origin: center center; opacity: .07; background: linear-gradient(to bottom, rgba(83, 135, 204, 1), rgba(83, 135, 204, 0)); }
+.publicqueue #bottom { text-align: right; position: fixed; bottom: 0; left: 0; right: 0; padding-right: 16px; }
+.publicqueue #bottom #logo { height: 2.25vh; vertical-align: middle;  }
+

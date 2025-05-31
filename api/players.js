@@ -6,31 +6,11 @@ const logError = err => err && console.log(err.message);
 export default db => {
     const api = Router();
     api.get('/', (req, res) => {
-        let sql = 'SELECT p.*, c.name as club_name from player p INNER JOIN club c ON c.id = p.club_id';
+        let sql = 'SELECT p.*, c.name as club_name from player p INNER JOIN club c ON c.id = p.club_id order by current_stage_id asc, id asc';
         const stmt = db.prepare(sql);
         const rows = stmt.all();
         res.status(200).json(rows);
     });
-
-    // api.get('/competition/:stageid', (req, res) => {
-    //     let sql = `
-    //         select p.id, p.firstname, p.lastname, c.name as club_name, count, score from rounds rs
-    //         inner join player p on p.id = rs.player_id
-    //         inner join club c on c.id = p.club_id
-    //         inner join round r on r.id = rs.round_id
-    //         where r.stage_id = ?
-    //         and p.current_stage_id = ?
-    //         group by p.id
-    //         UNION
-    //         select p.id, p.firstname, p.lastname, c.name as club_name, 0, null
-    //         from player p
-    //         inner join club c on c.id = p.club_id
-    //         where p.current_stage_id = ?;
-    //     `;
-    //     const stmt = db.prepare(sql);
-    //     const rows = stmt.all(req.params.stageid, req.params.stageid, req.params.stageid);
-    //     res.status(200).json(rows);
-    // });
 
     api.post('/', (req, res) => {
         const insertPlayer = db.prepare('INSERT INTO player (firstname, lastname, club_id) VALUES (?, ?, ?)');

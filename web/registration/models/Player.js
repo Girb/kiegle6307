@@ -1,10 +1,17 @@
 import { RoundCollection } from '../../competition/models/Round.js';
 
+const ROUND_MINUTES = 4;
 export default class Player extends Backbone.Model {
     get urlRool() { return '/api/players'; }
     parse(response) {
         this.rounds = new RoundCollection(response.rounds, { parse: true });
         return super.parse(response);
+    }
+    name() {
+        return `${this.get('firstname')} ${this.get('lastname')}`;
+    }
+    club() {
+        return this.get('club_name') || 'Ingen klubb';
     }
     setStatus(stageid) {
         return fetch(`/api/players/${this.id}/stage/${stageid}`,
@@ -33,6 +40,24 @@ export default class Player extends Backbone.Model {
             return 'btn-outline-success';
         }
         return 'btn-primary';
+    }
+    isFinished() {
+        return false; // Placeholder, implement logic to determine if the player is finished
+    }
+    isStarted() {
+        return false; // Placeholder, implement logic to determine if the player has started
+    }
+    isNextUp() {
+        return false;
+    }
+    minsUntil() {
+        const ongoingCount = this.collection.filter(p => p.isStarted()).length;
+        const idx = this.collection.filter(p => !p.isFinished()).indexOf(this);
+        let min = ((idx % 2 === 1) ? ((idx - 1) * (ROUND_MINUTES/2)) : idx * (ROUND_MINUTES/2));
+        if (ongoingCount > 1) {
+            min -= ROUND_MINUTES;
+        }
+        return min;
     }
     semiScore() {
         const s1s = this.rounds.at(0).get('score') || 0;
