@@ -74,3 +74,7 @@ CREATE VIEW IF NOT EXISTS rounds as
 
 INSERT OR REPLACE INTO club (id, name) VALUES (1, 'Kniksen');
 INSERT OR REPLACE INTO club (id, name) VALUES (2, 'Rambla');
+INSERT OR REPLACE INTO club (id, name) VALUES (3, 'Skaftet');
+INSERT OR REPLACE INTO club (id, name) VALUES (4, 'De Håpefulle');
+INSERT OR REPLACE INTO club (id, name) VALUES (5, 'Baltus');
+INSERT OR REPLACE INTO club (id, name) VALUES (6, 'KGB');

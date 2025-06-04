@@ -3,6 +3,8 @@ import { default as MainViewComp } from "./competition/views/MainView.js";
 import TopNav from "./registration/views/TopNav.js";
 import * as Stages from './Stages.js';
 import NextUpView from "./results/views/NextUpView.js";
+import ResultsView from "./results/views/ResultsView.js";
+import { PlayerCollection } from "./registration/models/Player.js";
 
 class App extends Backbone.Router {
   start() {
@@ -16,7 +18,7 @@ class App extends Backbone.Router {
       '': 'reg',
       'registrering': 'reg',
       'konkurranse/:stage': 'comp',
-      'resultater': 'res'
+      'resultater/:section': 'res'
     };
   } 
   renderTopNav(index) {
@@ -33,10 +35,17 @@ class App extends Backbone.Router {
     const v = new MainViewComp({ stage: parseInt(stage) });
     v.render().$el.appendTo($('main').empty());
   }
-  res() {
+  res(section) {
     this.renderTopNav(2);
-    const v = new NextUpView();
-    v.render().$el.appendTo($('main').empty());
+    if (section === 'queue') {
+      const v = new NextUpView({ section: 'queue' });
+      v.render().$el.appendTo($('main').empty());
+    } else if (section === '1' || section === '2' || section === '3') {
+      const collection = new PlayerCollection();
+      collection.url = `/api/results/${section}`;
+      const v = new ResultsView({ collection, stage: parseInt(section) });
+      v.render().$el.appendTo($('main').empty());
+    }
   }
 };
 

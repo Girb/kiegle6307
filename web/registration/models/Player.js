@@ -59,14 +59,27 @@ export default class Player extends Backbone.Model {
         }
         return min;
     }
+    qualScore() {
+        return this.rounds.at(0).get('score') || 0;
+    }
     semiScore() {
-        const s1s = this.rounds.at(0).get('score') || 0;
-        const s2s = this.rounds.at(1).get('score') || 0;
-        return s1s + s2s;
+        return this.rounds.at(1).get('score') || 0;
     }
     totalScore() {
         return this.rounds.reduce((sum, r) => sum + (r.get('score') || 0), 0);
-    }   
+    }
+    scoreAt(stageid) {
+        if (stageid === 1) {
+            return this.qualScore();
+        } else if (stageid === 2) {
+            return this.semiScore();
+        } else if (stageid === 3 || stageid === 4) {
+            return this.totalScore();
+        }
+    }
+    isOngoing(stageid) {
+        return this.rounds.at(stageid - 1).isOngoing(); // :|
+    }
 }
 
 export class PlayerCollection extends Backbone.Collection {

@@ -68,7 +68,7 @@ export class Stage1PlayerRow extends PlayerRow {
             <td>${this.model.get('club_name')}</td>
             <td class="text-center stage${this.stage}"></td>
             <td class="text-center d-none"></td>
-            <td class="text-end"><button class="btn btn-success done ${this.roundFinished() ? '' : 'd-none'}">Ferdig &#x2714;</button></td>
+            <td class="text-end"><button class="btn btn-success done ${this.roundFinished() ? '' : 'd-none'}">Ferdig</button></td>
         `;
     }
 }
@@ -97,7 +97,7 @@ export class Stage2PlayerRow extends PlayerRow {
             <td class="text-center stage1">${this.model.rounds.at(0).get('score')}</td>
             <td class="text-center stage2"></td>
             <td class="text-center">${this.model.semiScore()}</td>
-            <td class="text-end"><button class="btn btn-success done ${this.roundFinished() ? '' : 'd-none'}">Ferdig &#x2714;</button></td>
+            <td class="text-end"><button class="btn btn-success done ${this.roundFinished() ? '' : 'd-none'}">Ferdig</button></td>
         `;
     }
 }
