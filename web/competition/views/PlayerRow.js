@@ -147,7 +147,7 @@ export class Stage34PlayerRow extends PlayerRow {
         this.listenTo(btn4, 'changed', () => this.trigger('changed'));
         btn4.render().$el.appendTo(this.$(`.stage4`));
 
-        this.$('.done').prop('disabled', !(this.model.rounds.at(this.stageId - 1).get('count') === 10));
+        this.$('.done').prop('disabled', (!this.model.isFinished(3) || !this.model.isFinished(4)));
         return this;
     }
 }

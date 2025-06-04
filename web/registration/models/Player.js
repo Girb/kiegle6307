@@ -65,6 +65,15 @@ export default class Player extends Backbone.Model {
     semiScore() {
         return this.rounds.at(1).get('score') || 0;
     }
+    final1Score() {
+        return this.rounds.at(2).get('score') || 0;
+    }
+    final2Score() {
+        return this.rounds.at(3).get('score') || 0;
+    }
+    finalScore() {
+        return this.final1Score() + this.final2Score();
+    }
     totalScore() {
         return this.rounds.reduce((sum, r) => sum + (r.get('score') || 0), 0);
     }
@@ -73,12 +82,35 @@ export default class Player extends Backbone.Model {
             return this.qualScore();
         } else if (stageid === 2) {
             return this.semiScore();
+        } else if (stageid === 3) {
+            return this.final1Score();
+        } else if (stageid === 4) {
+            return this.final2Score();
+        }
+    }
+    totalAt(stageid) {
+        if (stageid === 1) {
+            return this.qualScore();
+        } else if (stageid === 2) {
+            return this.qualScore() + this.semiScore();
         } else if (stageid === 3 || stageid === 4) {
             return this.totalScore();
         }
+        return 0;
     }
     isOngoing(stageid) {
-        return this.rounds.at(stageid - 1).isOngoing(); // :|
+        if (stageid === 1) return this.rounds.at(0).isOngoing();
+        if (stageid === 2) return this.rounds.at(1).isOngoing();
+        if (stageid === 3) return this.rounds.at(2).isOngoing();
+        if (stageid === 4) return this.rounds.at(3).isOngoing();
+        return false;
+    }
+    isFinished(stageid) {
+        if (stageid === 1) return this.rounds.at(0).isFinished();
+        if (stageid === 2) return this.rounds.at(1).isFinished();
+        if (stageid === 3) return this.rounds.at(2).isFinished();
+        if (stageid === 4) return this.rounds.at(3).isFinished();
+        return false;
     }
 }
 
