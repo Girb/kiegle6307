@@ -16,18 +16,12 @@ app.use(express.static(path.join(__dirname, 'web')));
 
 // const db = new Database(':memory:', { verbose: console.log });
 // const db = new Database(':memory:');
-const db = new Database(path.join(__dirname, 'test.db'));
-db.pragma('journal_mode = WAL');
+const dbpath = path.join(__dirname, 'kongematch.db');
+const db = new Database(dbpath);
+db._path = dbpath;
+// db.pragma('journal_mode = WAL');
 // const db = new sqlite3.Database(':memory:');
 // const db = new sqlite3.Database('test.db');
-// db.serialize(() => {
-//     db.run('CREATE TABLE user (id INT, name TEXT)');
-
-//     const stmt = db.prepare('INSERT INTO user VALUES (?, ?)');
-//     stmt.run(1, 'Eivind Sommersten');
-//     stmt.run(2, 'Håkon Marås');
-//     stmt.finalize();
-// });
 
 const sql = fs.readFileSync('./db.sql', 'utf-8').toString();
 db.exec(sql, err => {

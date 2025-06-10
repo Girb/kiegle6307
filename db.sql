@@ -78,3 +78,7 @@ INSERT OR REPLACE INTO club (id, name) VALUES (3, 'Skaftet');
 INSERT OR REPLACE INTO club (id, name) VALUES (4, 'De Håpefulle');
 INSERT OR REPLACE INTO club (id, name) VALUES (5, 'Baltus');
 INSERT OR REPLACE INTO club (id, name) VALUES (6, 'KGB');
+INSERT OR REPLACE INTO club (id, name) VALUES (7, 'Neptun');
+INSERT OR REPLACE INTO club (id, name) VALUES (8, 'Gjallarhorn');
+INSERT OR REPLACE INTO club (id, name) VALUES (9, 'Viking');
+INSERT OR REPLACE INTO club (id, name) VALUES (10, 'Hussardene');

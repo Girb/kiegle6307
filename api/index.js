@@ -4,6 +4,7 @@ import rounds from "./rounds.js";
 import throws from "./throws.js";
 import competition from "./competition.js";
 import results from "./results.js";
+import admin from "./admin.js";
 
 export default db => {
     const api = Router();
@@ -12,5 +13,6 @@ export default db => {
     api.use('/throws', throws(db));
     api.use('/competition', competition(db));
     api.use('/results', results(db));
+    api.use('/admin', admin(db));
     return api;
 };

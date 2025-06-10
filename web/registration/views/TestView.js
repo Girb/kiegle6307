@@ -14,7 +14,7 @@ export default class TestView extends View {
     }
     insertPlayer(e) {
         e.preventDefault();
-        this.util.createRandomPlayer();
+        this.util.createRandomPlayer().then(() => this.trigger('inserted'));
     }
     rest(e) {
         e.preventDefault();

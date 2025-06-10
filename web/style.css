@@ -29,7 +29,7 @@ table tbody tr:first-child button.up { visibility: hidden; opacity: 0; }
 table tbody tr:last-child button.dn { visibility: hidden; opacity: 0; }
 
 .publicqueue {
-  font-size: 3.75vh; padding: 16px; overflow: hidden; background-color: #222;
+  font-size: 3.75vh; padding: 16px; overflow: hidden;
   @media only screen and (max-width: 640px) {
     font-size: 2vh;
   }
@@ -912,7 +912,6 @@ input::-webkit-inner-spin-button {
   overflow: hidden;
   font-size: 3.75vh;
   padding: 16px;
-  background-color: #222;
 }
 @media only screen and (max-width: 640px) {
   .publicresults {

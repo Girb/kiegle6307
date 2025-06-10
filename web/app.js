@@ -5,6 +5,7 @@ import * as Stages from './Stages.js';
 import NextUpView from "./results/views/NextUpView.js";
 import ResultsView from "./results/views/ResultsView.js";
 import { PlayerCollection } from "./registration/models/Player.js";
+import AdminMainView from "./admin/views/AdminMainView.js";
 
 class App extends Backbone.Router {
   start() {
@@ -18,7 +19,8 @@ class App extends Backbone.Router {
       '': 'reg',
       'registrering': 'reg',
       'konkurranse/:stage': 'comp',
-      'resultater/:section': 'res'
+      'resultater/:section': 'res',
+      'admin': 'admin'
     };
   } 
   renderTopNav(index) {
@@ -46,6 +48,11 @@ class App extends Backbone.Router {
       const v = new ResultsView({ collection, stage: parseInt(section) });
       v.render().$el.appendTo($('main').empty());
     }
+  }
+  admin() {
+    this.renderTopNav();
+    const v = new AdminMainView();
+    v.render().$el.appendTo($('main').empty());
   }
 };
 

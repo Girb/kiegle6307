@@ -50,6 +50,9 @@ export default class MainView extends View {
         super.render();
         this.renderList();
         const tv = new TestView();
+        this.listenTo(tv, 'inserted', () => {
+            this.renderList();
+        });
         tv.render().$el.appendTo(this.$('.test'));
         return this;
     }
