@@ -37,6 +37,8 @@ export default db => {
         if (req.body.stage_id === 1) {
             stmt = db.prepare('UPDATE player set sort_order = (select max(sort_order) + 1 from player where current_stage_id IN (1,2)) where id = ?');
             stmt.run(req.body.id);
+            stmt = db.prepare('UPDATE player SET sort_order = (select count(id) + 1 from player WHERE current_stage_id = ?) WHERE id = ?)');
+            stmt.run(req.body.current_stage_id, req.body.id);
         }
         res.status(200).json(result);
     });

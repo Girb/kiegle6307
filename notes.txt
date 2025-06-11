@@ -27,3 +27,8 @@ KONKURRANSE [innledende | semifinale | finale]
 
 /comp
 
+
+
+
+mulighet til å endre status/stage
+slette/kansellere slager
