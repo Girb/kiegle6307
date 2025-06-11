@@ -10,7 +10,10 @@ export default class TopNav extends View {
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="navbar-collapse collapse d-lg-flex" id="topbarcontent">
-                <a class="navbar-brand col-lg-3 me-0" href="#">Kiegle 6307</a>
+                <a class="navbar-brand col-lg-3 me-0 py-0" href="#">
+                    <img src="/img/bg2.png" alt="Kiegle Logo" height="36" >
+                    <div class="d-inline-block ms-2">Kiegle 6307</div>
+                </a>
                 <ul class="nav nav-pills col-lg-6 justify-content-lg-center">
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="#registrering">Registrering</a>

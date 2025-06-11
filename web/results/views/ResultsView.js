@@ -12,6 +12,7 @@ class ResultRow extends View {
             <td class="prev stage1">${this.model.rounds.at(0).get('score')}</td>
             <td class="prev stage2">${this.model.rounds.at(1).get('score')}</td>
             <td class="cur"></td>
+            <td class="cur2 d-none"></td>
             <td class="total">${this.model.totalAt(this.stage)}</td>
 
         `;
@@ -27,6 +28,9 @@ class ResultRow extends View {
             .toggleClass('live', this.ongoing())
             //.append(this.ongoing() ? `<span class="score sum">${score || '--'}</span>` : score || '');
             .append(`<span class="score sum">${score || '--'}</span>`);
+        this.$('.cur2')
+            .toggleClass('d-none', this.stage < 3)
+            .append(`<span class="score sum">${this.model.scoreAt(4)}</span>`)
         this.$('.stage1').toggleClass('d-none', this.stage < 2);
         this.$('.stage2').toggleClass('d-none', this.stage < 3);
         this.$('.total')

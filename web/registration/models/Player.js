@@ -101,15 +101,15 @@ export default class Player extends Backbone.Model {
     isOngoing(stageid) {
         if (stageid === 1) return this.rounds.at(0).isOngoing();
         if (stageid === 2) return this.rounds.at(1).isOngoing();
-        if (stageid === 3) return this.rounds.at(2).isOngoing();
-        if (stageid === 4) return this.rounds.at(3).isOngoing();
+        if (stageid === 3) return this.rounds.at(2).isOngoing() || this.rounds.at(3).isOngoing();
+        if (stageid === 4) return this.rounds.at(2).isOngoing() || this.rounds.at(3).isOngoing();
         return false;
     }
     isFinished(stageid) {
         if (stageid === 1) return this.rounds.at(0).isFinished();
         if (stageid === 2) return this.rounds.at(1).isFinished();
-        if (stageid === 3) return this.rounds.at(2).isFinished();
-        if (stageid === 4) return this.rounds.at(3).isFinished();
+        if (stageid === 3) return this.rounds.at(2).isFinished() && this.rounds.at(3).isFinished();
+        if (stageid === 4) return this.rounds.at(2).isFinished() && this.rounds.at(3).isFinished();
         return false;
     }
 }
