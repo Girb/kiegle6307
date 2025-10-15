@@ -51,6 +51,7 @@ export class Stage1PlayerRow extends PlayerRow {
     static get headerTemplate() {
         return /* html */ `
             <th></th>
+            <th></th>
             <th>Navn</th>
             <th>Klubb</th>
             <th class="score text-center px-5">Score</th>
@@ -60,6 +61,7 @@ export class Stage1PlayerRow extends PlayerRow {
     }
     get template() {
         return /* html */ `
+            <td class="idx"></td>
             <td>
                 <button class="btn btn-sm btn-secondary up">▲</button>
                 <button class="btn btn-sm btn-secondary dn">▼</button>
@@ -78,9 +80,10 @@ export class Stage2PlayerRow extends PlayerRow {
     static get headerTemplate() {
         return /* html */ `
             <th></th>
+            <th></th>
             <th>Navn</th>
             <th>Klubb</th>
-            <th class="score text-center px-5">Innledende</th>
+            <th class="score text-center px-5"><button class="btn btn-link sort">Innledende</button></th>
             <th class="score text-center px-5">Score</th>
             <th class="score text-center">Total</th>
             <th></th>
@@ -88,6 +91,7 @@ export class Stage2PlayerRow extends PlayerRow {
     }
     get template() {
         return /* html */ `
+            <td class="idx"></td>
             <td>
                 <button class="btn btn-sm btn-secondary up">▲</button>
                 <button class="btn btn-sm btn-secondary dn">▼</button>
@@ -107,6 +111,7 @@ export class Stage34PlayerRow extends PlayerRow {
     static get headerTemplate() {
         return /* html */ `
             <th></th>
+            <th></th>
             <th class="cursor-pointer">Navn</th>
             <th class="cursor-pointer">Klubb</th>
             <th class="score text-center px-3">Innledende</th>
@@ -119,6 +124,7 @@ export class Stage34PlayerRow extends PlayerRow {
     }
     get template() {
         return /* html */ `
+            <td class="idx"></td>
             <td>
                 <button class="btn btn-sm btn-secondary up">▲</button>
                 <button class="btn btn-sm btn-secondary dn">▼</button>

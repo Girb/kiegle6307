@@ -25,9 +25,15 @@ class PlayerRow extends View {
             <td>${this.model.get('club_name')}</td>
             <td>
                 <div class="d-flex justify-content-end">
-                <div class="text-muted me-1 pe-1 lbl"></div>
+                <div class="text-muted me-2 pe-1 lbl"></div>
                     <button class="btn me-1 btn${this.model.get('stage_id') === 0 ? '-outline' : ''}-success btn-sm confirm ${this.model.get('stage_id') === 1 ? 'active' : ''}"></button>
-                    <button class="btn btn-outline-primary btn-sm edit">Rediger</button>
+                    <div class="dropdown">
+                        <button class="btn btn-primary btn-sm px-3" type="button" data-bs-toggle="dropdown" aria-expanded="false">⋮</button>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item edit" href="#">Rediger</a></li>
+                            <li><a class="dropdown-item text-danger deactivate" href="#">Deaktiver</a></li>
+                        </ul>
+                    </div>
                 </div>
             </td>
         `;

@@ -42,8 +42,10 @@ table tbody tr:last-child button.dn { visibility: hidden; opacity: 0; }
 .publicqueue #bottom { text-align: right; position: fixed; bottom: 0; left: 0; right: 0; padding-right: 16px; }
 .publicqueue #bottom #logo { height: 2.25vh; vertical-align: middle;  }
 
-
-
+table tbody { counter-reset: row-counter; }
+table tbody tr { counter-increment: row-counter; }
+table tbody td.idx { width: 40px; text-align: right; color: #888; }
+table tbody td.idx::before { content: counter(row-counter); }
 
 
 
