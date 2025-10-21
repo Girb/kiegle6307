@@ -50,6 +50,9 @@ export default class Player extends Backbone.Model {
     isNextUp() {
         return false;
     }
+    isInactive() {
+        return this.get('current_stage_id') === 6;
+    }
     minsUntil() {
         const ongoingCount = this.collection.filter(p => p.isStarted()).length;
         const idx = this.collection.filter(p => !p.isFinished()).indexOf(this);

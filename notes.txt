@@ -30,5 +30,10 @@ KONKURRANSE [innledende | semifinale | finale]
 
 
 
-mulighet til å endre status/stage
-slette/kansellere slager
+
+
+Admin resultater (non public display)
+
+
+
+Mulighet til å endre status/stage, deaktivere slager*

@@ -16,8 +16,19 @@ export default class TopNav extends View {
                 </a>
                 <ul class="nav nav-pills col-lg-6 justify-content-lg-center">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#registrering">Registrering</a>
+                        <a class="nav-link active" aria-current="page" href="#registrering">Påmelding</a>
                     </li>
+                    <div class="vr mx-2"></div>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#konkurranse/1">Innledende</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#konkurranse/2">Semi</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#konkurranse/3">Finale</a>
+                    </li>
+                    <!--
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">Konkurranse</a>
                         <ul class="dropdown-menu">
@@ -26,9 +37,13 @@ export default class TopNav extends View {
                             <li><a class="dropdown-item" href="#konkurranse/3">Finale</a></li>
                         </ul>
                     </li>
+                    -->
+                    <div class="vr mx-2"></div>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">Resultater</a>
                         <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#resultater/oversikt">Oversikt</a></li>
+                            <li><hr class="dropdown-divider"></li>
                             <li><a class="dropdown-item" href="#resultater/queue">Kø</a></li>
                             <li><a class="dropdown-item" href="#resultater/1">Innledende</a></li>
                             <li><a class="dropdown-item" href="#resultater/2">Semifinale</a></li>
@@ -42,7 +57,8 @@ export default class TopNav extends View {
     }
     render() {
         super.render();
-        this.$('.nav-item>a').removeClass('active').eq(this.index).addClass('active');
+        this.$('.nav-item>a').removeClass('active');
+        this.$('.nav-item>a').eq(this.index).addClass('active');
         return this;
     }
 }

@@ -6,6 +6,7 @@ import NextUpView from "./results/views/NextUpView.js";
 import ResultsView from "./results/views/ResultsView.js";
 import { PlayerCollection } from "./registration/models/Player.js";
 import AdminMainView from "./admin/views/AdminMainView.js";
+import ResultsOverview from "./results/views/ResultsOverview.js";
 
 class App extends Backbone.Router {
   start() {
@@ -33,14 +34,17 @@ class App extends Backbone.Router {
     v.render().$el.appendTo($('main').empty());
   }
   comp(stage) {
-    this.renderTopNav(1);
+    this.renderTopNav(parseInt(stage));
     const v = new MainViewComp({ stage: parseInt(stage) });
     v.render().$el.appendTo($('main').empty());
   }
   res(section) {
-    this.renderTopNav(2);
+    this.renderTopNav(4);
     if (section === 'queue') {
       const v = new NextUpView({ section: 'queue' });
+      v.render().$el.appendTo($('main').empty());
+    } else if (section === 'oversikt') {
+      const v = new ResultsOverview();
       v.render().$el.appendTo($('main').empty());
     } else if (section === '1' || section === '2' || section === '3') {
       const collection = new PlayerCollection();

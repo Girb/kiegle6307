@@ -4,10 +4,14 @@ import { PlayerCollection } from '../models/Player.js';
 
 class PlayerRow extends View {
     get tagName() { return 'tr'; }
+    get className() {
+        return this.model.isInactive() ? 'text-danger' : '';
+    }
     get events() {
         return {
             'click .edit': 'edit',
-            'click .confirm': 'toggleConfirm'
+            'click .confirm': 'toggleConfirm',
+            'click .deactivate': 'toggleDeactivate'
         };
     }
     edit(e) {
@@ -18,20 +22,27 @@ class PlayerRow extends View {
         e.preventDefault();
         this.model.save({ current_stage_id: this.model.get('current_stage_id') ^ 1 }).then(() => this.render());
     }
+    toggleDeactivate(e) {
+        const current_stage_id = this.model.isInactive() ? 0 : 6;
+        this.model.save({ current_stage_id }).then(() => this.render());
+    }
+    cls() {
+        return this.model.isInactive() ? 'text-decoration-line-through text-danger' : '';
+    }
     get template() {
         return /* html */ `
-            <td>${this.model.get('firstname')}</td>
-            <td>${this.model.get('lastname')}</td>
-            <td>${this.model.get('club_name')}</td>
+            <td class="${this.cls()}">${this.model.get('firstname')}</td>
+            <td class="${this.cls()}">${this.model.get('lastname')}</td>
+            <td class="${this.cls()}">${this.model.get('club_name')}</td>
             <td>
                 <div class="d-flex justify-content-end">
                 <div class="text-muted me-2 pe-1 lbl"></div>
-                    <button class="btn me-1 btn${this.model.get('stage_id') === 0 ? '-outline' : ''}-success btn-sm confirm ${this.model.get('stage_id') === 1 ? 'active' : ''}"></button>
+                    <button class="btn me-1 btn${this.model.get('stage_id') === 0 ? '-outline' : ''}-success btn-sm confirm ${this.model.get('current_stage_id') === 1 ? 'active' : ''}"></button>
                     <div class="dropdown">
                         <button class="btn btn-primary btn-sm px-3" type="button" data-bs-toggle="dropdown" aria-expanded="false">⋮</button>
                         <ul class="dropdown-menu dropdown-menu-end">
                             <li><a class="dropdown-item edit" href="#">Rediger</a></li>
-                            <li><a class="dropdown-item text-danger deactivate" href="#">Deaktiver</a></li>
+                            <li><a class="dropdown-item ${this.model.isInactive() ? '' : 'text-danger'} deactivate" href="#">${this.model.isInactive() ? 'Gjenopprett' : 'Deaktiver'}</a></li>
                         </ul>
                     </div>
                 </div>
