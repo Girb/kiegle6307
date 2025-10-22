@@ -1,13 +1,66 @@
 import { PlayerCollection } from "../../registration/models/Player.js";
 import View from "../../views/View.js";
 
-class ResultRow extends View {
+class Stage1Row extends View {
     get tagName() { return 'tr'; }
+    get headerTemplate() {
+        return /* html */ `
+            <th>Navn</th>
+            <th>Klubb</th>
+            <th>Score</th>
+        `;
+    }
     get template() {
         return /* html */ `
             <td class="name">${this.model.name()}</td>
             <td class="club">${this.model.club()}</td>
-            <td class="score">${this.model.totalAt(this.stage)}</td>
+            <td class="qual">${this.model.qualScore()}</td>
+        `;
+    }
+}
+class Stage2Row extends View {
+    get tagName() { return 'tr'; }
+    get headerTemplate() {
+        return /* html */ `
+            <th>Navn</th>
+            <th>Klubb</th>
+            <th>Innledende</th>
+            <th>Semi</th>
+            <th>Total</th>
+        `;
+    }
+    get template() {
+        return /* html */ `
+            <td class="name">${this.model.name()}</td>
+            <td class="club">${this.model.club()}</td>
+            <td class="qual">${this.model.qualScore()}</td>
+            <td class="semi">${this.model.semiScore()}</td>
+            <td class="totalScore">${this.model.qualScore() + this.model.semiScore()}</td>
+        `;
+    }
+}
+class Stage3Row extends View {
+    get tagName() { return 'tr'; }
+    get headerTemplate() {
+        return /* html */ `
+            <th>Navn</th>
+            <th>Klubb</th>
+            <th>Innledende</th>
+            <th>Semi</th>
+            <th>Finale 1</th>
+            <th>Finale 2</th>
+            <th>Total</th>
+        `;
+    }
+    get template() {
+        return /* html */ `
+            <td class="name">${this.model.name()}</td>
+            <td class="club">${this.model.club()}</td>
+            <td class="qual">${this.model.qualScore()}</td>
+            <td class="semi">${this.model.semiScore()}</td>
+            <td class="score">${this.model.final1Score()}</td>
+            <td class="score">${this.model.final2Score()}</td>
+            <td class="score">${this.model.totalScore()}</td>
         `;
     }
 }
@@ -27,12 +80,26 @@ class ResultTable extends View {
             </table>
         `;
     }
+    rowView(model) {
+        if (this.stage === 1) {
+            return new Stage1Row({ model, stage: this.stage });
+        } else if (this.stage === 2) {
+            return new Stage2Row({ model, stage: this.stage });
+        } else if (this.stage === 3) {
+            return new Stage3Row({ model, stage: this.stage });
+        } else {
+            throw new Error(`Invalid stage: ${this.stage}`);
+        }
+    }
     addOne(model) {
-        const row = new ResultRow({ model, stage: this.stage });
+        const row = this.rowView(model);
         row.render().$el.appendTo(this.$('table tbody'));
     }
     render() {
-        super.render();
+        this.$el.empty();
+        const tmprow = this.rowView(this.collection.first());
+        this.$el.html(this.template);
+        this.$('table thead tr').html(tmprow.headerTemplate);
         this.collection.each(this.addOne, this);
         return this;
     }
