@@ -11,7 +11,8 @@ class PlayerRow extends View {
         return {
             'click .edit': 'edit',
             'click .confirm': 'toggleConfirm',
-            'click .deactivate': 'toggleDeactivate'
+            'click .deactivate': 'toggleDeactivate',
+            'click .status': 'setStatus'
         };
     }
     edit(e) {
@@ -25,6 +26,11 @@ class PlayerRow extends View {
     toggleDeactivate(e) {
         const current_stage_id = this.model.isInactive() ? 0 : 6;
         this.model.save({ current_stage_id }).then(() => this.render());
+    }
+    setStatus(e) {
+        e.preventDefault();
+        const statusId = parseInt($(e.currentTarget).data('statusid'));
+        this.model.save({ current_stage_id: statusId }).then(() => this.render());
     }
     cls() {
         return this.model.isInactive() ? 'text-decoration-line-through text-danger' : '';
@@ -42,7 +48,15 @@ class PlayerRow extends View {
                         <button class="btn btn-primary btn-sm px-3" type="button" data-bs-toggle="dropdown" aria-expanded="false">⋮</button>
                         <ul class="dropdown-menu dropdown-menu-end">
                             <li><a class="dropdown-item edit" href="#">Rediger</a></li>
-                            <li><a class="dropdown-item ${this.model.isInactive() ? '' : 'text-danger'} deactivate" href="#">${this.model.isInactive() ? 'Gjenopprett' : 'Deaktiver'}</a></li>
+                            <li><hr class="dropdown-divider" /></li>
+                            <!--<li><a class="dropdown-item ${this.model.isInactive() ? '' : 'text-danger'} deactivate" href="#">${this.model.isInactive() ? 'Gjenopprett' : 'Deaktiver'}</a></li>-->
+                            <li><h6 class="dropdown-header">Sett status</h6></li>
+                            <li><a href="#" class="dropdown-item status" data-statusid="0">Registrert</a></li>
+                            <li><a href="#" class="dropdown-item status" data-statusid="1">Innledende</a></li>
+                            <li><a href="#" class="dropdown-item status" data-statusid="2">Semifinale</a></li>
+                            <li><a href="#" class="dropdown-item status" data-statusid="3">Finale</a></li>
+                            <li><a href="#" class="dropdown-item status" data-statusid="4">Ferdig</a></li>
+                            <li><a href="#" class="dropdown-item status text-danger" data-statusid="5">Kansellert</a></li>
                         </ul>
                     </div>
                 </div>

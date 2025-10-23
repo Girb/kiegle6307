@@ -8,7 +8,8 @@ export default class MainView extends View {
     get events() {
         return {
             'input .q': 'filter',
-            'click .create': 'createNew'
+            'click .create': 'createNew',
+            'click .createclub': 'createClub'
         };
     }
     filter(e) {
@@ -23,6 +24,10 @@ export default class MainView extends View {
         e.preventDefault();
         new Controller().createPlayer(this.$('.q').val().trim()).then(() => this.render());
     }
+    createClub(e) {
+        e.preventDefault();
+        new Controller().createClub().then(() => this.render());
+    }
     get template() {
         return /* html */ `
             <div class="container">
@@ -31,7 +36,8 @@ export default class MainView extends View {
                         <input autofocus type="search" name="q" class="q w-100" placeholder="Finn slager...">
                     </div>
                     <div>
-                        <button class="btn btn-primary create">Legg til ny</button>
+                        <button class="btn btn-primary create">Meld på slager</button>
+                        <button class="btn btn-outline-primary createclub">Ny klubb</button>
                     </div>
                 </div>
                 <div class="list"></div>

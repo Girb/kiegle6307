@@ -12,10 +12,9 @@ CREATE TABLE IF NOT EXISTS stage (
 INSERT OR REPLACE INTO stage (id, title) VALUES (0, 'Registrert');
 INSERT OR REPLACE INTO stage (id, title) VALUES (1, 'Innledende');
 INSERT OR REPLACE INTO stage (id, title) VALUES (2, 'Semi');
-INSERT OR REPLACE INTO stage (id, title) VALUES (3, 'Finale 1');
-INSERT OR REPLACE INTO stage (id, title) VALUES (4, 'Finale 2');
-INSERT OR REPLACE INTO stage (id, title) VALUES (5, 'Ferdig');
-INSERT OR REPLACE INTO stage (id, title) VALUES (6, 'Kansellert');
+INSERT OR REPLACE INTO stage (id, title) VALUES (3, 'Finale');
+INSERT OR REPLACE INTO stage (id, title) VALUES (4, 'Ferdig');
+INSERT OR REPLACE INTO stage (id, title) VALUES (5, 'Kansellert');
 
 CREATE TABLE IF NOT EXISTS player (
 	id INTEGER PRIMARY KEY,

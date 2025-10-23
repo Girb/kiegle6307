@@ -24,12 +24,11 @@ export default class Player extends Backbone.Model {
     statusTxt() {
         const id =  this.get('current_stage_id');
         if (id === 0) return 'Registrert';
-        if (id === 1) return 'Bekreftet / Innledende';
+        if (id === 1) return 'Innledende';
         if (id === 2) return 'Semifinale';
         if (id === 3) return 'Finale ';
-        if (id === 4) return 'Finale 2';
-        if (id === 5) return 'Ferdig';
-        if (id === 6) return 'Kansellert / Ikke møtt';
+        if (id === 4) return 'Ferdig';
+        if (id === 5) return 'Kansellert';
         return `Ukjent status (${id})`;
     }
     stageStr(stageid) {
@@ -51,7 +50,7 @@ export default class Player extends Backbone.Model {
         return false;
     }
     isInactive() {
-        return this.get('current_stage_id') === 6;
+        return this.get('current_stage_id') === 5;
     }
     minsUntil() {
         const ongoingCount = this.collection.filter(p => p.isStarted()).length;
