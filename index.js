@@ -35,7 +35,7 @@ db.exec(sql, err => {
 app.use('/api', api(db));
 
 app.get('/clubs', (req, res) => {
-    const stmt = db.prepare('SELECT * from club');
+    const stmt = db.prepare('SELECT * from club order by name asc');
     const rows = stmt.all();
     res.status(200).json(rows);
 });

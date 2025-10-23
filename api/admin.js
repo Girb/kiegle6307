@@ -32,7 +32,7 @@ export default db => {
     });
 
     api.post('/truncate', (req, res) => {
-        // backs up the current database, then trucates THROW, ROUND, PLAYER
+        // backs up the current database, then truncates THROW, ROUND, PLAYER
         const backupPath = `${db._path}.${new Date().valueOf()}.backup`;
         db.backup(backupPath).then(() => {
             const statements = [

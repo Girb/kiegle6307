@@ -32,8 +32,8 @@ KONKURRANSE [innledende | semifinale | finale]
 
 
 Beste klubb
+Klubbadmin
+fix fullscreen
+
 Admin resultater (non public display)
-
-
-
-Mulighet til å endre status/stage, deaktivere slager*
+Mulighet til å endre status/stage
