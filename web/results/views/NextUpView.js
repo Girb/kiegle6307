@@ -23,7 +23,7 @@ export default class NextUpView extends View {
                 console.error(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
             });
         } else {
-            document.exitFullscreen()?.();
+            document.exitFullscreen();
         }
     }
     refresh() {

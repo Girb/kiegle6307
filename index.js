@@ -41,6 +41,6 @@ app.get('/clubs', (req, res) => {
 });
 
 const PORT = 6307;
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
     console.log(`Kiegle kjører på http://localhost:${PORT} - lå det gå sport i det!`);
 });

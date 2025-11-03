@@ -9,6 +9,9 @@ body {
     font-family: Arial, sans-serif;
     margin: 20px;
 }
+:fullscreen nav {
+    display: none !important;
+}
 .cursor-pointer { cursor: pointer; }
 
 th.score { width: 120px; }

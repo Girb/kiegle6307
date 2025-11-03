@@ -14,12 +14,13 @@ export default db => {
             inner join club c on c.id = p.club_id`;
         let stmt = db.prepare(sql);
         const players = stmt.all(); // stmt.all(req.params.stageid);
-        sql = 'SELECT * from rounds';
+        sql = 'SELECT * from rounds order by score DESC, c9 DESC, c8 DESC, c7 DESC, c6 DESC, c5 DESC, c4 DESC;';
         stmt = db.prepare(sql);
         const rounds = stmt.all();
         for (const player of players) {
             player.rounds = rounds.filter(t => t.player_id === player.id);
-            player.roundTotal = sumRounds(player.rounds.filter(r => r.stage_id === parseInt(req.params.stageid)));
+            const rounds = player.rounds.filter(r => r.stage_id === parseInt(req.params.stageid));
+            player.roundTotal = sumRounds(rounds);
         }
         players.sort((p1, p2) => {
             return p2.roundTotal - p1.roundTotal;

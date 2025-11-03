@@ -64,10 +64,21 @@ CREATE TABLE IF NOT EXISTS throw (
 -- ;
 
 CREATE VIEW IF NOT EXISTS rounds as
-    select r.player_id, t.round_id, r.stage_id, sum(case when t.score IS NOT NULL then 1 else 0 end) count, sum(t.score) as score
+    select r.player_id,
+        t.round_id,
+        r.stage_id,
+        sum(case when t.score IS NOT NULL then 1 else 0 end) count,
+        sum(t.score) as score,
+        sum(case when t.score = 9 then 1 else 0 end) as c9,
+        sum(case when t.score = 8 then 1 else 0 end) as c8,
+        sum(case when t.score = 7 then 1 else 0 end) as c7,
+        sum(case when t.score = 6 then 1 else 0 end) as c6,
+        sum(case when t.score = 5 then 1 else 0 end) as c5,
+        sum(case when t.score = 4 then 1 else 0 end) as c4
         from throw t
         INNER JOIN round r on r.id = t.round_id
-        GROUP BY t.round_id, r.player_id;
+        GROUP BY t.round_id, r.player_id
+        ORDER BY score DESC, c9 DESC, c8 DESC, c7 DESC, c6 DESC, c5 DESC, c4 DESC
 ;
 
 

@@ -50,6 +50,20 @@ export default class ResultsView extends View {
         this.listenTo(this.collection, 'sync', this.redraw);
         this.collection.fetch({ reset: true });
     }
+    get events() {
+        return {
+            'click #logo': 'toggleFullscreen',
+        };
+    }
+    toggleFullscreen() {
+        if (!document.fullscreenElement) {
+            document.documentElement.requestFullscreen().catch(err => {
+                console.error(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
+            });
+        } else {
+            document.exitFullscreen();
+        }
+    }
     refresh() {
         this.$('table').fadeTo(500, 0, () => {
             this.collection.fetch({ reset: true });
