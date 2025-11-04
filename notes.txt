@@ -33,8 +33,8 @@ KONKURRANSE [innledende | semifinale | finale]
 
 Beste klubb
 Klubbadmin
-Sjekk poengalgo/9'er tall
-Resultater - sortering er på current, ikke total
+   Sjekk poengalgo/9'er tall
+   Resultater - sortering er på current, ikke total
 Fiks funksjon for sortering i semi/finale
 Kø - current stage? fix
 Sjekk maks 32 resultater

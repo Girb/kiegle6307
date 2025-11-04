@@ -1,5 +1,6 @@
 import { PlayerCollection } from "../../registration/models/Player.js";
 import View from "../../views/View.js";
+import * as Stages from '../../Stages.js';
 
 class Stage1Row extends View {
     get tagName() { return 'tr'; }
@@ -109,6 +110,7 @@ export default class ResultsOverview extends View {
     get className() { return 'resultsoverview'; }
     showStage(stage = 1, el) {
         const collection = new PlayerCollection();
+        collection.comparator = Stages.resultComparator(stage);
         collection.url = `/api/results/${stage}`;
         collection.fetch({ reset: true }).then(() => {
             const table = new ResultTable({ collection, stage });

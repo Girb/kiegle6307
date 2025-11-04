@@ -7,8 +7,6 @@ export default class NextUpView extends View {
     initialize(options) {
         super.initialize(options);
         this.page = 1;
-        this.collection = new PlayerCollection();
-        this.collection.url = `/api/competition/1`;
         this.listenTo(this.collection, 'sync', this.redraw);
         this.collection.fetch({ reset: true });
     }

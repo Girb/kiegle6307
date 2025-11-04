@@ -40,11 +40,18 @@ export default class TopNav extends View {
                     -->
                     <div class="vr mx-2"></div>
                     <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">Kø</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#queue/1">Innledende</a></li>
+                            <li><a class="dropdown-item" href="#queue/2">Semifinale</a></li>
+                            <li><a class="dropdown-item" href="#queue/3">Finale</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">Resultater</a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="#resultater/oversikt">Oversikt</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="#resultater/queue">Kø</a></li>
+                            <li><hr class="dropdown-divicer" /></li>
                             <li><a class="dropdown-item" href="#resultater/1">Innledende</a></li>
                             <li><a class="dropdown-item" href="#resultater/2">Semifinale</a></li>
                             <li><a class="dropdown-item" href="#resultater/3">Finale</a></li>

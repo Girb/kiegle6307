@@ -62,22 +62,22 @@ export default class Player extends Backbone.Model {
         return min;
     }
     qualScore() {
-        return this.rounds.at(0).get('score') || 0;
+        return this.get('prelim_score') || 0;
     }
     semiScore() {
-        return this.rounds.at(1).get('score') || 0;
+        return this.get('semi_score') || 0;
     }
     final1Score() {
-        return this.rounds.at(2).get('score') || 0;
+        return this.get('final1_score') || 0;
     }
     final2Score() {
-        return this.rounds.at(3).get('score') || 0;
+        return this.get('final2_score') || 0;
     }
     finalScore() {
         return this.final1Score() + this.final2Score();
     }
     totalScore() {
-        return this.rounds.reduce((sum, r) => sum + (r.get('score') || 0), 0);
+        return this.get('total_score') || 0;
     }
     scoreAt(stageid) {
         if (stageid === 1) {
@@ -101,17 +101,17 @@ export default class Player extends Backbone.Model {
         return 0;
     }
     isOngoing(stageid) {
-        if (stageid === 1) return this.rounds.at(0).isOngoing();
-        if (stageid === 2) return this.rounds.at(1).isOngoing();
-        if (stageid === 3) return this.rounds.at(2).isOngoing() || this.rounds.at(3).isOngoing();
-        if (stageid === 4) return this.rounds.at(2).isOngoing() || this.rounds.at(3).isOngoing();
+        if (stageid === 1) return this.get('prelim_throws') > 0 && !this.isFinished(stageid);
+        if (stageid === 2) return this.get('semi_throws') > 0 && !this.isFinished(stageid);
+        if (stageid === 3) return this.get('final1_throws') > 0 && !this.isFinished(stageid);
+        if (stageid === 4) return this.get('final2_throws') > 0 && !this.isFinished(stageid);
         return false;
     }
     isFinished(stageid) {
-        if (stageid === 1) return this.rounds.at(0).isFinished();
-        if (stageid === 2) return this.rounds.at(1).isFinished();
-        if (stageid === 3) return this.rounds.at(2).isFinished() && this.rounds.at(3).isFinished();
-        if (stageid === 4) return this.rounds.at(2).isFinished() && this.rounds.at(3).isFinished();
+        if (stageid === 1) return this.get('prelim_throws') === 10;
+        if (stageid === 2) return this.get('semi_throws') === 10;
+        if (stageid === 3) return this.get('final1_throws') === 10;
+        if (stageid === 4) return this.get('final2_throws') === 10;
         return false;
     }
 }

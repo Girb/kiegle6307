@@ -20,6 +20,7 @@ class App extends Backbone.Router {
       '': 'reg',
       'registrering': 'reg',
       'konkurranse/:stage': 'comp',
+      'queue/:stage': 'queue',
       'resultater/:section': 'res',
       'admin': 'admin'
     };
@@ -38,17 +39,22 @@ class App extends Backbone.Router {
     const v = new MainViewComp({ stage: parseInt(stage) });
     v.render().$el.appendTo($('main').empty());
   }
-  res(section) {
+  queue(stage) {
     this.renderTopNav(4);
-    if (section === 'queue') {
-      const v = new NextUpView({ section: 'queue' });
-      v.render().$el.appendTo($('main').empty());
-    } else if (section === 'oversikt') {
+    const collection = new PlayerCollection();
+    collection.url = `/api/competition/${stage}`;
+    const v = new NextUpView({ collection });
+    v.render().$el.appendTo($('main').empty());
+  }
+  res(section) {
+    this.renderTopNav(5);
+    if (section === 'oversikt') {
       const v = new ResultsOverview();
       v.render().$el.appendTo($('main').empty());
     } else if (section === '1' || section === '2' || section === '3') {
       const collection = new PlayerCollection();
       collection.url = `/api/results/${section}`;
+      collection.comparator = Stages.resultComparator(parseInt(section));
       const v = new ResultsView({ collection, stage: parseInt(section) });
       v.render().$el.appendTo($('main').empty());
     }

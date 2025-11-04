@@ -9,8 +9,8 @@ class ResultRow extends View {
             <td>${this.index + 1}</td>
             <td class="name">${this.model.name()}</td>
             <td class="club">${this.model.club()}</td>
-            <td class="prev stage1">${this.model.rounds.at(0).get('score')}</td>
-            <td class="prev stage2">${this.model.rounds.at(1).get('score')}</td>
+            <td class="prev stage1">${this.model.get('prelim_score')}</td>
+            <td class="prev stage2">${this.model.get('semi_score')}</td>
             <td class="cur"></td>
             <td class="cur2 d-none"></td>
             <td class="total">${this.model.totalAt(this.stage)}</td>
