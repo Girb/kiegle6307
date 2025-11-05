@@ -36,10 +36,10 @@ Klubbadmin
    Sjekk poengalgo/9'er tall
    Resultater - sortering er på current, ikke total
 Fiks funksjon for sortering i semi/finale
-Kø - current stage? fix
+   Kø - current stage? fix
 Sjekk maks 32 resultater
 
-Admin resultater (non public display)
+   Admin resultater (non public display)
 Mulighet til å endre status/stage
 
 tim@leganger.net

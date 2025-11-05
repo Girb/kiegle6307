@@ -1,6 +1,17 @@
 import View from "../../views/View.js";
 import { Stage1PlayerRow, Stage2PlayerRow, Stage34PlayerRow } from "./PlayerRow.js";
 export default class PlayerList extends View {
+    get events() {
+        return {
+            'click .sort': 'sortStage'
+        };
+    }
+    sortStage(e) {
+        e.preventDefault();
+        fetch(`/api/players/sorting/${this.stage}`, { method: 'POST' }).then(this.render.bind(this));
+            // .then(res => res.json())
+            // .then(data => console.log(data));
+    }
     get template() {
         return /* html */ `
             <div class="tools"></div>

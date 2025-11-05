@@ -15,7 +15,8 @@ class PlayerRow extends View {
         return {
             'click .dn': 'dn',
             'click .up': 'up',
-            'click .done': 'done'
+            'click .done': 'done',
+            'click .sort': 'sortStage'
         };
     }
     dn(e) {
@@ -28,10 +29,15 @@ class PlayerRow extends View {
         this.$el.insertBefore(this.$el.prev());
         this.trigger('change:order');
     }
-    
     done(e) {
         e.preventDefault();
         this.model.setStatus(this.stage + 1).then(() => this.remove());
+    }
+    sortStage(e) {
+        e.preventDefault();
+        fetch(`/api/players/sorting/${this.stageId}`, { method: 'POST' })
+            .then(res => res.json())
+            .then(data => console.log(data));
     }
     roundFinished() {
         return this.model.rounds.at(this.stageId - 1).get('count') === 10
@@ -98,9 +104,9 @@ export class Stage2PlayerRow extends PlayerRow {
             </td>
             <td>${this.model.get('firstname')} ${this.model.get('lastname')}</td>
             <td>${this.model.get('club_name')}</td>
-            <td class="text-center stage1">${this.model.rounds.at(0).get('score')}</td>
+            <td class="text-center stage1">${this.model.get('prelim_score')}</td>
             <td class="text-center stage2"></td>
-            <td class="text-center">${this.model.semiScore()}</td>
+            <td class="text-center">${this.model.get('prelim_score') + this.model.get('stage_score')}</td>
             <td class="text-end"><button class="btn btn-success done ${this.roundFinished() ? '' : 'd-none'}">Ferdig</button></td>
         `;
     }
@@ -115,10 +121,10 @@ export class Stage34PlayerRow extends PlayerRow {
             <th class="cursor-pointer">Navn</th>
             <th class="cursor-pointer">Klubb</th>
             <th class="score text-center px-3">Innledende</th>
-            <th class="score text-center px-3">Semifinale</th>
+            <th class="score text-center px-3">Semi</th>
             <th class="score text-center px-3">Score (1)</th>
             <th class="score text-center px-3">Score (2)</th>
-            <th class="score text-center">Total</th>
+            <th class="score text-center"><button class="btn btn-link sort">Total</button></th>
             <th></th>
         `;
     }
@@ -131,11 +137,11 @@ export class Stage34PlayerRow extends PlayerRow {
             </td>
             <td>${this.model.get('firstname')} ${this.model.get('lastname')}</td>
             <td>${this.model.get('club_name')}</td>
-            <td class="text-center stage1">${this.model.rounds.at(0).get('score')}</td>
-            <td class="text-center stage2">${this.model.rounds.at(1).get('score')}</td>
+            <td class="text-center stage1">${this.model.get('prelim_score')}</td>
+            <td class="text-center stage1">${this.model.get('semi_score')}</td>
             <td class="text-center stage3"></td>
             <td class="text-center stage4"></td>
-            <td class="text-center total">${this.model.totalScore()}</td>
+            <td class="text-center total">${this.model.get('prelim_score') + this.model.get('semi_score') + this.model.get('final1_score') + this.model.get('final2_score')}</td>
             <td class="text-end"><button class="btn btn-success done ${this.roundFinished() ? '' : 'd-none'}">Ferdig</button></td>
         `;
     }

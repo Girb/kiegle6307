@@ -62,5 +62,35 @@ export default db => {
         res.status(200).json('{}');
     });
 
-    return api;
+    api.post('/sorting/:stageid', (req, res) => {
+        let stmt = db.prepare(`
+            WITH player_totals AS (
+    SELECT
+        p.id AS player_id,
+        COALESCE(SUM(t.score), 0) AS total_score
+    FROM player p
+    LEFT JOIN round r ON r.player_id = p.id
+    LEFT JOIN throw t ON t.round_id = r.id
+    WHERE r.stage_id <= ?  -- include all finished stages
+    GROUP BY p.id
+),
+ranked AS (
+    SELECT
+        player_id,
+        ROW_NUMBER() OVER (ORDER BY total_score ASC) AS new_sort_order
+        -- ASC so lowest scores start first
+    FROM player_totals
+)
+UPDATE player
+SET sort_order = (
+    SELECT new_sort_order
+    FROM ranked
+    WHERE ranked.player_id = player.id
+);
+            `);
+        
+    stmt.run(req.params.stageid);
+    res.status(200).json('{}');
+});
+return api;
 };
