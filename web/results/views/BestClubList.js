@@ -2,47 +2,19 @@ import { PlayerCollection } from "../../registration/models/Player.js";
 import View from "../../views/View.js";
 
 
-class ResultRow extends View {
+class ClubRow extends View {
     get tagName() { return 'tr'; }
     get template() {
         return /* html */ `
             <td>${this.index + 1}</td>
-            <td class="name">${this.model.name()}</td>
-            <td class="club">${this.model.club()}</td>
-            <td class="prev stage1">${this.model.get('prelim_score')}</td>
-            <td class="prev stage2">${this.model.get('semi_score')}</td>
-            <td class="cur"></td>
-            <td class="cur2 d-none"></td>
-            <td class="total">${this.model.totalAt(this.stage)}</td>
-
+            <td class="name">${this.model.get('club_name')}</td>
+            <td class="club">${this.model.get('club_score')}</td>
         `;
-    }
-    ongoing() {
-        return this.model.isOngoing(this.stage);
-    }
-    render() {
-        super.render();
-        this.$('.name,.club').toggleClass('blinking yellow', this.ongoing());
-        const score = this.model.scoreAt(this.stage);
-        this.$('.cur')
-            .toggleClass('live', this.ongoing())
-            //.append(this.ongoing() ? `<span class="score sum">${score || '--'}</span>` : score || '');
-            .append(`<span class="score sum">${score || '--'}</span>`);
-        this.$('.cur2')
-            .toggleClass('d-none', this.stage < 3)
-            .append(`<span class="score sum">${this.model.scoreAt(4)}</span>`)
-        this.$('.stage1').toggleClass('d-none', this.stage < 2);
-        this.$('.stage2').toggleClass('d-none', this.stage < 3);
-        this.$('.total')
-            .toggleClass('d-none', this.stage < 2)
-            .toggleClass('blinking yellow', this.ongoing());
-        
-        return this;
     }
 }   
 
 const REFRESH_INTERVAL = 15000;
-export default class ResultsView extends View {
+export default class BestClubList extends View {
     get className() { return 'publicresults'; }
     initialize(options) {
         super.initialize(options);
@@ -71,20 +43,18 @@ export default class ResultsView extends View {
     }
     redraw() {
         const tbl = this.$('table').empty();
-        const withScore = this.collection.filter(p => !!p.scoreAt(this.stage));
         let cnt = 0,
             start = (this.page) === 1 ? 0 : 16,
-            length = Math.min(withScore.length, start + 16);
-        if (this.stage !== 1) start = 0; // only one page for stages > 1
+            length = Math.min(this.collection.length, start + 16);
         for (let i = start; i < length; i += 1) {
-            const row = new ResultRow({ model: withScore[i], index: i, stage: this.stage });
+            const row = new ClubRow({ model: this.collection.at(i), index: i });
             row.render().$el.appendTo(tbl);
             cnt += 1;
             if (cnt === 16) break;
         }
         tbl.fadeTo(500, 1);
         this.interval = setTimeout(this.refresh.bind(this), REFRESH_INTERVAL);
-        this.page = (withScore.length > 16 && this.page === 1) ? 2 : 1;
+        this.page = (this.collection.length > 16 && this.page === 1) ? 2 : 1;
     }
     get template() {
         return /* html */ `

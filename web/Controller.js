@@ -32,4 +32,11 @@ export default class Controller extends Events {
             d.render().show();
         });
     }
+    editClub(model) {
+        return new Promise((resolve, reject) => {
+            const d = new EditClubDialog({ model });
+            this.listenToOnce(d, 'confirm', () => resolve(model));
+            d.render().show();
+        });
+    }
 }

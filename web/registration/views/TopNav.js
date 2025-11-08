@@ -51,10 +51,12 @@ export default class TopNav extends View {
                         <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">Resultater</a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="#resultater/oversikt">Oversikt</a></li>
-                            <li><hr class="dropdown-divicer" /></li>
+                            <li><hr class="dropdown-divider" /></li>
                             <li><a class="dropdown-item" href="#resultater/1">Innledende</a></li>
                             <li><a class="dropdown-item" href="#resultater/2">Semifinale</a></li>
                             <li><a class="dropdown-item" href="#resultater/3">Finale</a></li>
+                            <li><hr class="dropdown-divider" /></li>
+                            <li><a class="dropdown-item" href="#bestclub">Beste klubb</a></li>
                         </ul>
                     </li>
                 </ul>

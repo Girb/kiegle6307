@@ -8,8 +8,7 @@ export default class MainView extends View {
     get events() {
         return {
             'input .q': 'filter',
-            'click .create': 'createNew',
-            'click .createclub': 'createClub'
+            'click .create': 'createNew'
         };
     }
     filter(e) {
@@ -24,10 +23,6 @@ export default class MainView extends View {
         e.preventDefault();
         new Controller().createPlayer(this.$('.q').val().trim()).then(() => this.render());
     }
-    createClub(e) {
-        e.preventDefault();
-        new Controller().createClub().then(() => this.render());
-    }
     get template() {
         return /* html */ `
             <div class="container">
@@ -37,11 +32,10 @@ export default class MainView extends View {
                     </div>
                     <div>
                         <button class="btn btn-primary create">Meld på slager</button>
-                        <button class="btn btn-outline-primary createclub">Ny klubb</button>
                     </div>
                 </div>
                 <div class="list"></div>
-                <div class="mt-4 p-3 bg-secondary-subtle test"></div>
+                <div class="mt-5 p-3 bg-secondary-subtle test"></div>
             </div>
         `;
     }

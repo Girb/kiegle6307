@@ -7,6 +7,7 @@ import ResultsView from "./results/views/ResultsView.js";
 import { PlayerCollection } from "./registration/models/Player.js";
 import AdminMainView from "./admin/views/AdminMainView.js";
 import ResultsOverview from "./results/views/ResultsOverview.js";
+import BestClubList from "./results/views/BestClubList.js";
 
 class App extends Backbone.Router {
   start() {
@@ -22,6 +23,7 @@ class App extends Backbone.Router {
       'konkurranse/:stage': 'comp',
       'queue/:stage': 'queue',
       'resultater/:section': 'res',
+      'bestclub': 'bestClub',
       'admin': 'admin'
     };
   } 
@@ -58,6 +60,13 @@ class App extends Backbone.Router {
       const v = new ResultsView({ collection, stage: parseInt(section) });
       v.render().$el.appendTo($('main').empty());
     }
+  }
+  bestClub() {
+    this.renderTopNav(5);
+    const collection = new Backbone.Collection();
+    collection.url = `/api/clubs/best`;
+    const v = new BestClubList({ collection });
+    v.render().$el.appendTo($('main').empty());
   }
   admin() {
     this.renderTopNav();
