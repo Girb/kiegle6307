@@ -10,7 +10,7 @@ set NODE_DIR=node
 set APP_DIR=app
 set DIST_DIR=dist
 set ZIP_NAME=%APP_NAME%.zip
-set ZIP_EXE="C:\Program Files\7-Zip\7z.exe"
+set "ZIP_EXE=C:\Program Files\7-Zip\7z.exe"
 
 REM ----------------------------
 echo Cleaning old dist...
@@ -61,7 +61,10 @@ echo Creating run.bat launcher...
 REM ----------------------------
 (
 echo @echo off
-echo "%%~dp0%NODE_DIR%\node.exe" "%%~dp0%APP_DIR%\index.js"
+echo REM Change working directory to script folder
+echo cd /d "%%~dp0\%APP_DIR%"
+echo REM Run Node
+echo "%%~dp0%NODE_DIR%\node.exe" "index.js"
 echo pause
 ) > %DIST_DIR%\run.bat
 
@@ -70,7 +73,8 @@ echo Creating ZIP package...
 REM ----------------------------
 if exist %ZIP_NAME% del %ZIP_NAME%
 REM powershell -command "Compress-Archive -Path '%DIST_DIR%\*' -DestinationPath '%ZIP_NAME%'"
-%ZIP_EXE% a -tzip "%ZIP_NAME%" "%DIST_DIR%\*" -mx=9
+pushd "%DIST_DIR%"
+"%ZIP_EXE%" a -tzip "..\%ZIP_NAME%" * -r -mx=5
 
 echo.
 echo ✅ Build complete!
