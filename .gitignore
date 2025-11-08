@@ -159,3 +159,4 @@ customers/kreftforeningen/jasperreports/.metadata
 /insights-api/src/main/webapp/swagger/
 insights-flow/insights-web/src/main/webapp/cssmap.json
 **.db
+**/node-download/

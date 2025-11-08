@@ -10,6 +10,7 @@ set NODE_DIR=node
 set APP_DIR=app
 set DIST_DIR=dist
 set ZIP_NAME=%APP_NAME%.zip
+set ZIP_EXE="C:\Program Files\7-Zip\7z.exe"
 
 REM ----------------------------
 echo Cleaning old dist...
@@ -27,8 +28,14 @@ if not exist node-download (
 )
 
 if not exist node-download\node-v%NODE_VERSION%-win-x64.zip (
-    powershell -command "Invoke-WebRequest https://nodejs.org/dist/v%NODE_VERSION%/node-v%NODE_VERSION%-win-x64.zip -OutFile node-download/node.zip"
-    powershell -command "Expand-Archive node-download/node.zip -DestinationPath node-download -Force"
+    echo Downloading Node %NODE_VERSION%...
+    powershell -Command "Invoke-WebRequest https://nodejs.org/dist/v%NODE_VERSION%/node-v%NODE_VERSION%-win-x64.zip -OutFile 'node-download\node-v%NODE_VERSION%-win-x64.zip'"
+)
+
+REM Only extract if folder doesn't already exist
+if not exist node-download\node-v%NODE_VERSION% (
+    echo Extracting Node...
+    powershell -Command "Expand-Archive 'node-download\node-v%NODE_VERSION%-win-x64.zip' -DestinationPath node-download"
     rename node-download\node-v%NODE_VERSION%-win-x64 node-v%NODE_VERSION%
 )
 
@@ -62,7 +69,8 @@ REM ----------------------------
 echo Creating ZIP package...
 REM ----------------------------
 if exist %ZIP_NAME% del %ZIP_NAME%
-powershell -command "Compress-Archive -Path '%DIST_DIR%\*' -DestinationPath '%ZIP_NAME%'"
+REM powershell -command "Compress-Archive -Path '%DIST_DIR%\*' -DestinationPath '%ZIP_NAME%'"
+%ZIP_EXE% a -tzip "%ZIP_NAME%" "%DIST_DIR%\*" -mx=9
 
 echo.
 echo ✅ Build complete!
