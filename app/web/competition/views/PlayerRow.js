@@ -16,6 +16,7 @@ class PlayerRow extends View {
             'click .dn': 'dn',
             'click .up': 'up',
             'click .done': 'done',
+            'click .exit': 'exit',
             'click .sort': 'sortStage'
         };
     }
@@ -32,6 +33,10 @@ class PlayerRow extends View {
     done(e) {
         e.preventDefault();
         this.model.setStatus(this.stage + 1).then(() => this.remove());
+    }
+    exit(e) {
+        e.preventDefault();
+        this.model.setStatus(4).then(() => this.remove());
     }
     sortStage(e) {
         e.preventDefault();
@@ -76,7 +81,10 @@ export class Stage1PlayerRow extends PlayerRow {
             <td>${this.model.get('club_name')}</td>
             <td class="text-center stage${this.stage}"></td>
             <td class="text-center d-none"></td>
-            <td class="text-end"><button class="btn btn-success done ${this.roundFinished() ? '' : 'd-none'}">Ferdig</button></td>
+            <td class="text-end">
+                <button class="btn btn-success done ${this.roundFinished() ? '' : 'd-none'}">&#x1F3C6; Til Semi</button>
+                <button class="btn btn-outline-secondary exit">&#x1F37A; Utslått</button>
+            </td>
         `;
     }
 }
@@ -107,7 +115,10 @@ export class Stage2PlayerRow extends PlayerRow {
             <td class="text-center stage1">${this.model.get('prelim_score')}</td>
             <td class="text-center stage2"></td>
             <td class="text-center">${this.model.get('prelim_score') + this.model.get('stage_score')}</td>
-            <td class="text-end"><button class="btn btn-success done ${this.roundFinished() ? '' : 'd-none'}">Ferdig</button></td>
+            <td class="text-end">
+                <button class="btn btn-success done ${this.roundFinished() ? '' : 'd-none'}">&#x1F3C6; Til Finale</button>
+                <button class="btn btn-outline-secondary exit">&#x1F37A; Utslått</button>
+            </td>
         `;
     }
 }

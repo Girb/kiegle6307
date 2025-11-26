@@ -11,8 +11,14 @@ export default class EditPlayerDialog extends ModalView {
     get events() {
         return {
             'click .ok': 'confirm',
-            'click .cancel': 'close'
+            'click .cancel': 'close',
+            'input #firstname': 'update',
+            'input #lastname': 'update',
+            'change #club_id': 'update'
         }
+    }
+    update() {
+        this.$('button.ok').prop('disabled', this.$('#firstname').val().trim() === '' || this.$('#lastname').val().trim() === '' || !this.$('#club_id').val());
     }
     confirm(e) {
         e.preventDefault();
@@ -51,6 +57,7 @@ export default class EditPlayerDialog extends ModalView {
             });
             this.$('#club_id').val(this.model.get('club_id'));
         });
+        this.$('button.ok').prop('disabled', true);
         return this;
     }
 }
