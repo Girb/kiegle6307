@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Konkurransevisning</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #111;
+      --fg: #eee;
+      --accent: #4aa3ff;
+      --table-bg: #1a1a1a;
+      --table-border: #333;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--fg);
+      line-height: 1.4;
+    }
+
+    header {
+      padding: 1rem;
+      text-align: center;
+      font-size: 1.4rem;
+      font-weight: 600;
+      border-bottom: 1px solid var(--table-border);
+    }
+
+    section {
+      padding: 1rem;
+      display: none; /* hide all sections by default */
+    }
+
+    h2 {
+      font-size: 1.2rem;
+      margin-bottom: 0.5rem;
+      border-left: 4px solid var(--accent);
+      padding-left: 0.5rem;
+    }
+
+    .table-wrapper {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+      background: var(--table-bg);
+    }
+
+    th, td {
+      padding: 0.5rem;
+      border-bottom: 1px solid var(--table-border);
+      white-space: nowrap;
+      text-align: left;
+    }
+
+    th {
+      font-weight: 600;
+      background: #222;
+    }
+
+    .section-nav {
+      display: flex;
+      position: sticky;
+      top: 0;
+      background: var(--bg);
+      border-bottom: 1px solid var(--table-border);
+      z-index: 50;
+    }
+
+    .section-nav button {
+      flex: 1;
+      padding: 0.8rem 0.4rem;
+      background: #181818;
+      color: var(--fg);
+      border: none;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+
+    .section-nav button:hover {
+      background: #202020;
+    }
+
+    .section-nav button.active {
+      background: var(--accent);
+      color: #000;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <header>Konkurranse</header>
+
+  <nav class="section-nav">
+    <button data-target="#ko">Kø</button>
+    <button data-target="#innledende">Innledende</button>
+    <button data-target="#semifinale">Semifinale</button>
+    <button data-target="#finale">Finale</button>
+  </nav>
+
+  <section id="ko" class="page-section">
+    <h2>Kø</h2>
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Navn</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>1</td><td>Spiller A</td><td>Venter</td></tr>
+          <tr><td>2</td><td>Spiller B</td><td>Venter</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="innledende" class="page-section">
+    <h2>Innledende</h2>
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Navn</th>
+            <th>Poeng</th>
+            <th>Tid</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>1</td><td>Spiller A</td><td>12</td><td>01:12</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="semifinale" class="page-section">
+    <h2>Semifinale</h2>
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Navn</th>
+            <th>Poeng</th>
+            <th>Tid</th>
+            <th>Heat</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>1</td><td>Spiller C</td><td>15</td><td>01:05</td><td>1</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="finale" class="page-section">
+    <h2>Finale</h2>
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Navn</th>
+            <th>Poeng</th>
+            <th>Tid</th>
+            <th>Heat</th>
+            <th>Rank</th>
+            <th>Kommentar</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>1</td><td>Spiller D</td><td>20</td><td>00:59</td><td>2</td><td>1</td><td>-</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+<script>
+  function showSection(id) {
+    document.querySelectorAll('.page-section').forEach(sec => sec.style.display = 'none');
+    document.querySelectorAll('.section-nav button').forEach(btn => btn.classList.remove('active'));
+
+    const el = document.querySelector(id);
+    if (el) {
+      el.style.display = 'block';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    const activeBtn = document.querySelector(`.section-nav button[data-target="${id}"]`);
+    if (activeBtn) activeBtn.classList.add('active');
+  }
+
+  function applyHash() {
+    const h = location.hash || '#ko';
+    showSection(h);
+  }
+
+  window.addEventListener('hashchange', applyHash);
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.section-nav button').forEach(btn => {
+      btn.addEventListener('click', () => {
+        location.hash = btn.dataset.target;
+      });
+    });
+    applyHash();
+  });
+</script>
+</body>
+</html>
